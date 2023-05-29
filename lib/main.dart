@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gogoos_app/models/recipe.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
 import 'views/screens/home_screen.dart';
 import 'views/screens/profile_screen.dart';
+import 'views/screens/recipe_detail_screen.dart';
 import 'views/screens/welcome_screen.dart';
 import 'views/screens/login_screen.dart';
 import 'views/screens/register_screen.dart';
@@ -15,11 +17,11 @@ Future<void> main() async {
   );
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Lato',
         primaryColor: AppColor.primaryColor,
       ),
-      home: const HomePage(),
+      home: const ProfilePage(),
     );
   }
 }
