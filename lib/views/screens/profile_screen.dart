@@ -5,8 +5,8 @@ import 'package:gogoos_app/views/screens/home_screen.dart';
 import '../utils/app_color.dart';
 import '../widgets/user_info_tile.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

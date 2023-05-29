@@ -9,16 +9,16 @@ import '../widgets/review_tile.dart';
 import '../widgets/step_tile.dart';
 import 'full_screen_image.dart';
 
-class RecipeDetailPage extends StatefulWidget {
+class RecipeDetailScreen extends StatefulWidget {
   final Recipe data;
-  // RecipeDetailPage({@required this.data});
-  const RecipeDetailPage(this.data, {super.key});
+  // RecipeDetailScreen({@required this.data});
+  const RecipeDetailScreen(this.data, {super.key});
 
   @override
-  _RecipeDetailPageState createState() => _RecipeDetailPageState();
+  _RecipeDetailScreenState createState() => _RecipeDetailScreenState();
 }
 
-class _RecipeDetailPageState extends State<RecipeDetailPage>
+class _RecipeDetailScreenState extends State<RecipeDetailScreen>
     with TickerProviderStateMixin {
   late TabController _tabController;
   late ScrollController _scrollController;

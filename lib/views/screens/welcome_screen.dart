@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gogoos_app/views/screens/login_screen.dart';
+import 'package:gogoos_app/views/screens/register_screen.dart';
 import '../widgets/welcome_signature.dart';
 
 import '../utils/app_color.dart';
 
-class WelcomePage extends StatelessWidget {
-  const WelcomePage({super.key});
+class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,10 @@ class WelcomePage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(25)),
                           backgroundColor: AppColor.orangeSoftColor,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => LoginScreen()));
+                        },
                         child: Text('Get Started',
                             style: TextStyle(
                                 color: AppColor.primaryColor,
@@ -77,32 +82,6 @@ class WelcomePage extends StatelessWidget {
                   ],
                 )
               ],
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 5),
-            child: TextButton(
-              onPressed: () {},
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  text: 'Already Registered? ',
-                  style: TextStyle(
-                      color: Colors.white.withOpacity(0.8), height: 150 / 100),
-                  children: [
-                    TextSpan(
-                      text: 'Login Now! ',
-                      style: TextStyle(
-                          color: AppColor.orangeColor,
-                          fontWeight: FontWeight.w700,
-                          height: 150 / 100),
-                    ),
-                  ],
-                ),
-              ),
             ),
           ),
         ),

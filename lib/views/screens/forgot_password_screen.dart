@@ -1,64 +1,20 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gogoos_app/views/screens/login_screen.dart';
 import 'package:gogoos_app/views/widgets/button.dart';
-import 'package:gogoos_app/views/widgets/text_field.dart';
 
 import '../utils/app_color.dart';
+import '../widgets/text_field.dart';
 import '../widgets/welcome_signature.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
-  final _emailTextController = TextEditingController();
-  final _passwordTextController = TextEditingController();
-  final _confirmpasswordTextController = TextEditingController();
-
-  void signUp() async {
-    showDialog(
-      context: context,
-      builder: (context) => const Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-
-    //make sure password match
-    if (_confirmpasswordTextController.text != _passwordTextController.text) {
-      //pop loading circle
-      Navigator.pop(context);
-      //display error message
-      displayMessage("Password don't match");
-      return;
-    }
-
-    try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailTextController.text,
-        password: _passwordTextController.text,
-      );
-      if (context.mounted) Navigator.pop(context);
-    } on FirebaseAuthException catch (e) {
-      //pop loading circle
-      Navigator.pop(context);
-      //display error message
-      displayMessage(e.code);
-    }
-  }
-
-  //display dialog message
-  void displayMessage(String message) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(message),
-      ),
-    );
-  }
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  final emailTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Container(
                       margin: const EdgeInsets.only(bottom: 16),
                       child: const Text(
-                        'Sign Up',
+                        'Forgot Password',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 30,
@@ -100,31 +56,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     // Form
                     MyTextField(
-                        controller: _emailTextController,
+                        controller: emailTextController,
                         hintText: 'Email Address',
                         obsecureText: false,
                         color: AppColor.lightColor,
                         inputType: TextInputType.emailAddress,
                         icon: const Icon(Icons.mail)),
-                    MyTextField(
-                        controller: _passwordTextController,
-                        hintText: 'Password',
-                        obsecureText: true,
-                        color: AppColor.lightColor,
-                        inputType: TextInputType.visiblePassword,
-                        icon: const Icon(Icons.key)),
-                    MyTextField(
-                        controller: _confirmpasswordTextController,
-                        hintText: 'Confirm Password',
-                        obsecureText: true,
-                        color: AppColor.lightColor,
-                        inputType: TextInputType.visiblePassword,
-                        icon: const Icon(Icons.key)),
                   ],
                 ),
                 Mybutton(
-                  text: 'Sign Up',
-                  onPressed: signUp,
+                  text: 'Submit',
+                  onPressed: () {},
                 )
               ],
             ),
