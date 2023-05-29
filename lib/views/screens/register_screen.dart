@@ -16,7 +16,7 @@ class RegisterPage extends StatelessWidget {
           height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/images/bg.jpg'),
+                  image: AssetImage('assets/images/bg.png'),
                   fit: BoxFit.cover)),
         ),
         Positioned(
@@ -53,7 +53,7 @@ class RegisterPage extends StatelessWidget {
                         style: TextStyle(color: Colors.white, fontSize: 14),
                         decoration: InputDecoration(
                             hintText: 'Full Name',
-                            hintStyle: TextStyle(color: Colors.grey),
+                            hintStyle: TextStyle(color: Colors.white),
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.white),
                             ),
@@ -72,7 +72,7 @@ class RegisterPage extends StatelessWidget {
                         style: TextStyle(color: Colors.white, fontSize: 14),
                         decoration: InputDecoration(
                             hintText: 'Email Address',
-                            hintStyle: TextStyle(color: Colors.grey),
+                            hintStyle: TextStyle(color: Colors.white),
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.white),
                             ),
@@ -89,7 +89,7 @@ class RegisterPage extends StatelessWidget {
                       style: TextStyle(color: Colors.white, fontSize: 14),
                       decoration: InputDecoration(
                           hintText: 'Password',
-                          hintStyle: TextStyle(color: Colors.grey),
+                          hintStyle: TextStyle(color: Colors.white),
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.white),
                           ),
@@ -105,7 +105,7 @@ class RegisterPage extends StatelessWidget {
                       style: TextStyle(color: Colors.white, fontSize: 14),
                       decoration: InputDecoration(
                           hintText: 'Password',
-                          hintStyle: TextStyle(color: Colors.grey),
+                          hintStyle: TextStyle(color: Colors.white),
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.white),
                           ),
