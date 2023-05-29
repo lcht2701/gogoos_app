@@ -18,7 +18,7 @@ class LoginPage extends StatelessWidget {
           height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/images/bg.jpg'),
+                  image: AssetImage('assets/images/bg.png'),
                   fit: BoxFit.cover)),
         ),
         Positioned(
@@ -55,7 +55,7 @@ class LoginPage extends StatelessWidget {
                         style: TextStyle(color: Colors.white, fontSize: 14),
                         decoration: InputDecoration(
                             hintText: 'Email Address',
-                            hintStyle: TextStyle(color: Colors.grey),
+                            hintStyle: TextStyle(color: Colors.white),
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.white),
                             ),
@@ -72,7 +72,7 @@ class LoginPage extends StatelessWidget {
                       style: TextStyle(color: Colors.white, fontSize: 14),
                       decoration: InputDecoration(
                           hintText: 'Password',
-                          hintStyle: TextStyle(color: Colors.grey),
+                          hintStyle: TextStyle(color: Colors.white),
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.white),
                           ),
@@ -93,7 +93,14 @@ class LoginPage extends StatelessWidget {
                               fillColor: MaterialStateColor.resolveWith(
                                   (states) => Colors.white),
                             ),
-                            Text('Remember Me'),
+                            Text(
+                              'Remember Me',
+                              style: TextStyle(
+                                color: AppColor.lightColor,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'inter',
+                              ),
+                            ),
                           ],
                         ),
                         TextButton(
