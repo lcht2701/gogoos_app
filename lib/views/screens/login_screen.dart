@@ -34,7 +34,9 @@ class _LoginScreenState extends State<LoginScreen> {
         password: _passwordTextController.text,
       );
       //pop loading circle
-      if (context.mounted) Navigator.pop(context);
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
     } on FirebaseAuthException catch (e) {
       //pop loading circle
       Navigator.pop(context);
@@ -135,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 Mybutton(
-                  onPressed: signIn,
+                  onTap: signIn,
                   text: 'Log in',
                 ),
               ],

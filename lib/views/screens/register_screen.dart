@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gogoos_app/views/screens/home_screen.dart';
 import 'package:gogoos_app/views/screens/login_screen.dart';
 import 'package:gogoos_app/views/widgets/button.dart';
 import 'package:gogoos_app/views/widgets/text_field.dart';
@@ -41,7 +42,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         email: _emailTextController.text,
         password: _passwordTextController.text,
       );
-      if (context.mounted) Navigator.pop(context);
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
     } on FirebaseAuthException catch (e) {
       //pop loading circle
       Navigator.pop(context);
@@ -123,8 +126,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
                 Mybutton(
+                  onTap: signUp,
                   text: 'Sign Up',
-                  onPressed: signUp,
                 )
               ],
             ),

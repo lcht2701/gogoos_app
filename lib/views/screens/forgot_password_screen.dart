@@ -66,7 +66,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
                 Mybutton(
                   text: 'Submit',
-                  onPressed: () {},
+                  onTap: () {},
                 )
               ],
             ),

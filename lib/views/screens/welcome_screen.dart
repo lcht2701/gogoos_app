@@ -67,7 +67,7 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => LoginScreen()));
+                              builder: (context) => const LoginScreen()));
                         },
                         child: Text('Get Started',
                             style: TextStyle(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gogoos_app/views/screens/home_screen.dart';
 
 import '../utils/app_color.dart';
 import '../widgets/user_info_tile.dart';
