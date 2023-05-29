@@ -1,15 +1,60 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gogoos_app/views/screens/forgot_password_screen.dart';
+import 'package:gogoos_app/views/widgets/button.dart';
+import 'package:gogoos_app/views/widgets/text_field.dart';
 
 import '../utils/app_color.dart';
 import '../widgets/welcome_signature.dart';
+import 'register_screen.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _emailTextController = TextEditingController();
+  final _passwordTextController = TextEditingController();
+
+  void signIn() async {
+    showDialog(
+      context: context,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
+    //try sign in
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailTextController.text,
+        password: _passwordTextController.text,
+      );
+      //pop loading circle
+      if (context.mounted) Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      //pop loading circle
+      Navigator.pop(context);
+      //display error message
+      displayMessage(e.code);
+    }
+  }
+
+  //display dialog message
+  void displayMessage(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(message),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    bool isChecked = false;
-
     return Scaffold(
         body: Stack(
       children: [
@@ -47,64 +92,29 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     // Form
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 4),
-                      child: TextField(
-                        cursorColor: Colors.white,
-                        keyboardType: TextInputType.emailAddress,
-                        style: TextStyle(color: Colors.white, fontSize: 14),
-                        decoration: InputDecoration(
-                            hintText: 'Email Address',
-                            hintStyle: TextStyle(color: Colors.white),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            prefixIcon: Icon(Icons.mail),
-                            prefixIconColor: Colors.white),
-                      ),
-                    ),
-                    const TextField(
-                      cursorColor: Colors.white,
-                      obscureText: true,
-                      style: TextStyle(color: Colors.white, fontSize: 14),
-                      decoration: InputDecoration(
-                          hintText: 'Password',
-                          hintStyle: TextStyle(color: Colors.white),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
-                          prefixIcon: Icon(Icons.key),
-                          prefixIconColor: Colors.white),
-                    ),
+                    MyTextField(
+                        controller: _emailTextController,
+                        hintText: 'Email Address',
+                        obsecureText: false,
+                        color: AppColor.lightColor,
+                        inputType: TextInputType.emailAddress,
+                        icon: const Icon(Icons.mail)),
+                    MyTextField(
+                        controller: _passwordTextController,
+                        hintText: 'Password',
+                        obsecureText: true,
+                        color: AppColor.lightColor,
+                        inputType: TextInputType.visiblePassword,
+                        icon: const Icon(Icons.key)),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Row(
-                          children: [
-                            Checkbox(
-                              value: isChecked,
-                              onChanged: (value) {},
-                              fillColor: MaterialStateColor.resolveWith(
-                                  (states) => Colors.white),
-                            ),
-                            Text(
-                              'Remember Me',
-                              style: TextStyle(
-                                color: AppColor.lightColor,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'inter',
-                              ),
-                            ),
-                          ],
-                        ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    const ForgotPasswordScreen()));
+                          },
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.white,
                           ),
@@ -124,32 +134,9 @@ class LoginPage extends StatelessWidget {
                     // Log in Button
                   ],
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    // Get Started Button
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 85 / 100,
-                      height: 50,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25)),
-                          backgroundColor: AppColor.orangeSoftColor,
-                        ),
-                        onPressed: () {},
-                        child: Text('Login',
-                            style: TextStyle(
-                                color: AppColor.primaryColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'inter')),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    // Log in Button
-                  ],
+                Mybutton(
+                  onPressed: signIn,
+                  text: 'Log in',
                 ),
               ],
             ),
@@ -157,28 +144,30 @@ class LoginPage extends StatelessWidget {
         ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 5),
-            child: TextButton(
-              onPressed: () {},
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  text: 'Don\'t have a account? ',
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Don\'t have a account?',
+                style: TextStyle(
+                    color: Colors.white.withOpacity(0.8),
+                    height: 150 / 100,
+                    fontWeight: FontWeight.w700),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const RegisterScreen()));
+                },
+                child: Text(
+                  'Sign Up Now!',
                   style: TextStyle(
-                      color: Colors.white.withOpacity(0.8), height: 150 / 100),
-                  children: [
-                    TextSpan(
-                      text: 'Sign Up Now! ',
-                      style: TextStyle(
-                          color: AppColor.orangeColor,
-                          fontWeight: FontWeight.w700,
-                          height: 150 / 100),
-                    ),
-                  ],
+                      color: AppColor.orangeColor,
+                      fontWeight: FontWeight.w700,
+                      height: 150 / 100),
                 ),
               ),
-            ),
+            ],
           ),
         ),
       ],

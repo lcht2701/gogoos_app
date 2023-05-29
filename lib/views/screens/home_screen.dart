@@ -1,23 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
-import 'package:gogoos_app/views/widgets/homepage_header.dart';
 import 'package:gogoos_app/views/widgets/top_recipe_card.dart';
 import 'package:stylish_bottom_bar/model/bar_items.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
 import '../widgets/homepage_functions.dart';
+import '../widgets/homepage_header.dart';
 import '../widgets/recipe_tile.dart';
 import '../widgets/search_with_filter.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   dynamic selected;
   PageController controller = PageController();
 
@@ -35,11 +35,11 @@ class _HomePageState extends State<HomePage> {
           ),
           child: Column(
             children: [
-              HomePageHeader(),
+              const HomeScreenHeader(),
               const SizedBox(height: 14),
-              SearchWithFilter(),
+              const SearchWithFilter(),
               const SizedBox(height: 14),
-              HomePageFunctions(),
+              const HomeScreenFunctions(),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: Row(

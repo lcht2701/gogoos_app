@@ -6,7 +6,8 @@ class UserInfoTile extends StatelessWidget {
   final String label, value;
   final EdgeInsetsGeometry? margin, padding;
   final Color? valueBackground;
-  UserInfoTile({
+  const UserInfoTile({
+    super.key,
     required this.label,
     required this.value,
     this.margin,

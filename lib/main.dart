@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gogoos_app/views/auth/auth.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
-import 'views/screens/home_screen.dart';
-import 'views/screens/profile_screen.dart';
-import 'views/screens/welcome_screen.dart';
-import 'views/screens/login_screen.dart';
-import 'views/screens/register_screen.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -29,7 +26,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Lato',
         primaryColor: AppColor.primaryColor,
       ),
-      home: const HomePage(),
+      home: const AuthPage(),
     );
   }
 }

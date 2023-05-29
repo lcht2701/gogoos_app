@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class HomePageFunctions extends StatefulWidget {
-  const HomePageFunctions({super.key});
+class HomeScreenFunctions extends StatefulWidget {
+  const HomeScreenFunctions({super.key});
 
   @override
-  State<HomePageFunctions> createState() => _HomePageFunctionsState();
+  State<HomeScreenFunctions> createState() => _HomeScreenFunctionsState();
 }
 
-class _HomePageFunctionsState extends State<HomePageFunctions> {
+class _HomeScreenFunctionsState extends State<HomeScreenFunctions> {
   @override
   Widget build(BuildContext context) {
     return Container(
