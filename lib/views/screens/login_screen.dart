@@ -4,6 +4,7 @@ import 'package:gogoos_app/views/screens/forgot_password_screen.dart';
 import 'package:gogoos_app/views/widgets/button.dart';
 import 'package:gogoos_app/views/widgets/text_field.dart';
 
+import '../auth/auth_controller.dart';
 import '../utils/app_color.dart';
 import '../widgets/welcome_signature.dart';
 import 'register_screen.dart';
@@ -29,10 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     //try sign in
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailTextController.text,
-        password: _passwordTextController.text,
-      );
+      Auth().registerWithEmailAndPassword(
+          _emailTextController.value.text, _passwordTextController.value.text);
       //pop loading circle
       if (context.mounted) Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
