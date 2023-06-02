@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:gogoos_app/views/auth/auth.dart';
+import 'package:gogoos_app/views/auth/auth_screen.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-  );
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gogoos_app/views/screens/home_screen.dart';
+import 'package:gogoos_app/views/auth/auth_controller.dart';
 import 'package:gogoos_app/views/screens/login_screen.dart';
 import 'package:gogoos_app/views/widgets/button.dart';
 import 'package:gogoos_app/views/widgets/text_field.dart';

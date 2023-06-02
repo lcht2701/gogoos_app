@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../screens/home_screen.dart';
+import '../screens/homescreen/home_screen.dart';
 import '../screens/login_screen.dart';
 
 class AuthPage extends StatelessWidget {
@@ -9,7 +9,7 @@ class AuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder(
+      body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           //if user is logged in

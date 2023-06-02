@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     //try sign in
     try {
-      Auth().registerWithEmailAndPassword(
+      AuthController().loginWithEmailAndPassword(
           _emailTextController.value.text, _passwordTextController.value.text);
       //pop loading circle
       if (context.mounted) {
@@ -86,10 +86,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: const Text(
                         'Login',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'inter'),
+                          color: Colors.white,
+                          fontSize: 30,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                     // Form

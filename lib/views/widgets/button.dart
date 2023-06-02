@@ -17,7 +17,7 @@ class Mybutton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: MediaQuery.of(context).size.width * 85 / 100,
-        height: 50,
+        height: 40,
         decoration: BoxDecoration(
           color: AppColor.orangeSoftColor,
           borderRadius: BorderRadius.circular(25),
@@ -27,7 +27,7 @@ class Mybutton extends StatelessWidget {
             text,
             style: TextStyle(
               color: AppColor.primaryColor,
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
           ),
