@@ -9,7 +9,7 @@ class ProfileScreenHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
+        const Text(
           'My Profile',
           style: TextStyle(
             color: Colors.black,

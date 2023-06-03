@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gogoos_app/views/auth/auth_controller.dart';
 import 'package:gogoos_app/views/screens/login_screen.dart';
 import 'package:gogoos_app/views/widgets/button.dart';
 import 'package:gogoos_app/views/widgets/text_field.dart';
 
+import '../../controllers/auth_controller.dart';
 import '../utils/app_color.dart';
 import '../widgets/welcome_signature.dart';
 
@@ -16,6 +16,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final _nameTextController = TextEditingController();
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
   final _confirmpasswordTextController = TextEditingController();
@@ -38,9 +39,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailTextController.text,
-        password: _passwordTextController.text,
+      await AuthController().registerWithEmailAndPassword(
+        _emailTextController.text,
+        _passwordTextController.text,
+        _nameTextController.text,
       );
       if (context.mounted) {
         Navigator.pop(context);
@@ -102,6 +104,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     // Form
+                    MyTextField(
+                        controller: _nameTextController,
+                        hintText: 'Name',
+                        obsecureText: false,
+                        color: AppColor.lightColor,
+                        inputType: TextInputType.text,
+                        icon: const Icon(Icons.text_fields)),
                     MyTextField(
                         controller: _emailTextController,
                         hintText: 'Email Address',

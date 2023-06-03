@@ -1,104 +1,126 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
+
+import 'package:gogoos_app/models/user.dart';
+
+import 'ingredient.dart';
+
 class Recipe {
-  String title;
-  String photo;
-  String calories;
-  String time;
-  String description;
-
-  List<Ingridient>? ingridients;
-  List<TutorialStep>? tutorial;
-  List<Review>? reviews;
-
-  Recipe(
-      {required this.title,
-      required this.photo,
-      required this.calories,
-      required this.time,
-      required this.description,
-      this.ingridients,
-      this.tutorial,
-      this.reviews});
-
-  // factory Recipe.fromJson(Map<String, Object> json) {
-  //   return Recipe(
-  //     title: json['title'],
-  //     photo: json['photo'],
-  //     calories: json['calories'],
-  //     time: json['time'],
-  //     description: json['description'],
-  //   );
-  // }
-}
-
-class TutorialStep {
-  String step;
-  String description;
-  TutorialStep({required this.step, required this.description});
-
-  Map<String, Object> toMap() {
-    return {
-      'step': step,
-      'description': description,
-    };
-  }
-
-  // factory TutorialStep.fromJson(Map<String, Object> json) => TutorialStep(
-  //       step: json['step'],
-  //       description: json['description'],
-  //     );
-
-  static List<TutorialStep> toList(List<Map<String, Object>> json) {
-    return List.from(json)
-        .map(
-            (e) => TutorialStep(step: e['step'], description: e['description']))
-        .toList();
-  }
-}
-
-class Review {
-  String username;
-  String review;
-  Review({required this.username, required this.review});
-
-  // factory Review.fromJson(Map<String, Object> json) => Review(
-  //       review: json['review'],
-  //       username: json['username'],
-  //     );
-
-  Map<String, Object> toMap() {
-    return {
-      'username': username,
-      'review': review,
-    };
-  }
-
-  static List<Review> toList(List<Map<String, Object>> json) {
-    return List.from(json)
-        .map((e) => Review(username: e['username'], review: e['review']))
-        .toList();
-  }
-}
-
-class Ingridient {
+  String id;
   String name;
-  String size;
+  String description;
+  double rating;
+  int cookingTime;
+  int serving;
+  String imgUrl;
+  //sub-collection
+  AppUser user;
+  List<Ingredient> ingredients;
+  Recipe({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.rating,
+    required this.cookingTime,
+    required this.serving,
+    required this.imgUrl,
+    required this.user,
+    required this.ingredients,
+  });
 
-  Ingridient({required this.name, required this.size});
-  // factory Ingridient.fromJson(Map<String, Object> json) => Ingridient(
-  //       name: json['name'],
-  //       size: json['size'],
-  //     );
+  Recipe copyWith({
+    String? id,
+    String? name,
+    String? description,
+    double? rating,
+    int? cookingTime,
+    int? serving,
+    String? imgUrl,
+    AppUser? user,
+    List<Ingredient>? ingredients,
+  }) {
+    return Recipe(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      rating: rating ?? this.rating,
+      cookingTime: cookingTime ?? this.cookingTime,
+      serving: serving ?? this.serving,
+      imgUrl: imgUrl ?? this.imgUrl,
+      user: user ?? this.user,
+      ingredients: ingredients ?? this.ingredients,
+    );
+  }
 
-  Map<String, Object> toMap() {
-    return {
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
       'name': name,
-      'size': size,
+      'description': description,
+      'rating': rating,
+      'cookingTime': cookingTime,
+      'serving': serving,
+      'imgUrl': imgUrl,
+      'user': user.toMap(),
+      'ingredients': ingredients.map((x) => x.toMap()).toList(),
     };
   }
 
-  static List<Ingridient> toList(List<Map<String, Object>> json) {
-    return List.from(json)
-        .map((e) => Ingridient(name: e['name'], size: e['size']))
-        .toList();
+  factory Recipe.fromMap(Map<String, dynamic> map) {
+    return Recipe(
+      id: map['id'] as String,
+      name: map['name'] as String,
+      description: map['description'] as String,
+      rating: map['rating'] as double,
+      cookingTime: map['cookingTime'] as int,
+      serving: map['serving'] as int,
+      imgUrl: map['imgUrl'] as String,
+      user: AppUser.fromMap(map['user'] as Map<String, dynamic>),
+      ingredients: List<Ingredient>.from(
+        (map['ingredients'] as List<int>).map<Ingredient>(
+          (x) => Ingredient.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Recipe.fromJson(String source) =>
+      Recipe.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() {
+    return 'Recipe(id: $id, name: $name, description: $description, rating: $rating, cookingTime: $cookingTime, serving: $serving, imgUrl: $imgUrl, user: $user, ingredients: $ingredients)';
+  }
+
+  @override
+  bool operator ==(covariant Recipe other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id &&
+        other.name == name &&
+        other.description == description &&
+        other.rating == rating &&
+        other.cookingTime == cookingTime &&
+        other.serving == serving &&
+        other.imgUrl == imgUrl &&
+        other.user == user &&
+        listEquals(other.ingredients, ingredients);
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        name.hashCode ^
+        description.hashCode ^
+        rating.hashCode ^
+        cookingTime.hashCode ^
+        serving.hashCode ^
+        imgUrl.hashCode ^
+        user.hashCode ^
+        ingredients.hashCode;
   }
 }

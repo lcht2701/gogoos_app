@@ -45,7 +45,9 @@ class HomeScreenHeader extends StatelessWidget {
           ],
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            FirebaseAuth.instance.signOut();
+          },
           icon: const Icon(
             Icons.notifications_outlined,
             size: 36,

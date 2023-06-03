@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../screens/homescreen/home_screen.dart';
 import '../screens/login_screen.dart';
 
-class AuthPage extends StatelessWidget {
-  const AuthPage({super.key});
+class AuthScreen extends StatelessWidget {
+  const AuthScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
