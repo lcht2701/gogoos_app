@@ -4,7 +4,7 @@ import 'package:gogoos_app/views/screens/forgot_password_screen.dart';
 import 'package:gogoos_app/views/widgets/button.dart';
 import 'package:gogoos_app/views/widgets/text_field.dart';
 
-import '../auth/auth_controller.dart';
+import '../../controllers/auth_controller.dart';
 import '../utils/app_color.dart';
 import '../widgets/welcome_signature.dart';
 import 'register_screen.dart';
@@ -30,10 +30,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
     //try sign in
     try {
-      Auth().registerWithEmailAndPassword(
+      await AuthController().loginWithEmailAndPassword(
           _emailTextController.value.text, _passwordTextController.value.text);
       //pop loading circle
-      if (context.mounted) Navigator.pop(context);
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
     } on FirebaseAuthException catch (e) {
       //pop loading circle
       Navigator.pop(context);
@@ -84,10 +86,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: const Text(
                         'Login',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'inter'),
+                          color: Colors.white,
+                          fontSize: 30,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                     // Form
@@ -134,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 Mybutton(
-                  onPressed: signIn,
+                  onTap: signIn,
                   text: 'Log in',
                 ),
               ],

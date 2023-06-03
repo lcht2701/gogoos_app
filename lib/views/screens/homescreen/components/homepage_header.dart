@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../utils/app_color.dart';
+import '../../../utils/app_color.dart';
 
 class HomeScreenHeader extends StatelessWidget {
   const HomeScreenHeader({super.key});
@@ -45,7 +45,9 @@ class HomeScreenHeader extends StatelessWidget {
           ],
         ),
         IconButton(
-          onPressed: FirebaseAuth.instance.signOut,
+          onPressed: () {
+            FirebaseAuth.instance.signOut();
+          },
           icon: const Icon(
             Icons.notifications_outlined,
             size: 36,
