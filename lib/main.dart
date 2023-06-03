@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:get/get.dart';
 import 'package:gogoos_app/views/auth/auth_screen.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'controllers/user_controller.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -14,12 +12,11 @@ Future<void> main() async {
   //remove splash screen
   await Future.delayed(const Duration(seconds: 3));
   FlutterNativeSplash.remove();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final UserController userController = Get.put(UserController());
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -2,12 +2,14 @@
 import 'dart:convert';
 
 class AppUser {
+  final String id;
   final String username;
   final String name;
   final String email;
   final String profileImg;
   final String phoneNumber;
   AppUser({
+    required this.id,
     required this.username,
     required this.name,
     required this.email,
@@ -16,6 +18,7 @@ class AppUser {
   });
 
   AppUser copyWith({
+    String? id,
     String? username,
     String? name,
     String? email,
@@ -23,6 +26,7 @@ class AppUser {
     String? phoneNumber,
   }) {
     return AppUser(
+      id: id ?? this.id,
       username: username ?? this.username,
       name: name ?? this.name,
       email: email ?? this.email,
@@ -33,6 +37,7 @@ class AppUser {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'username': username,
       'name': name,
       'email': email,
@@ -43,6 +48,7 @@ class AppUser {
 
   factory AppUser.fromMap(Map<String, dynamic> map) {
     return AppUser(
+      id: map['id'] as String,
       username: map['username'] as String,
       name: map['name'] as String,
       email: map['email'] as String,
@@ -58,14 +64,15 @@ class AppUser {
 
   @override
   String toString() {
-    return 'AppUser(username: $username, name: $name, email: $email, profileImg: $profileImg, phoneNumber: $phoneNumber)';
+    return 'AppUser(id: $id, username: $username, name: $name, email: $email, profileImg: $profileImg, phoneNumber: $phoneNumber)';
   }
 
   @override
   bool operator ==(covariant AppUser other) {
     if (identical(this, other)) return true;
 
-    return other.username == username &&
+    return other.id == id &&
+        other.username == username &&
         other.name == name &&
         other.email == email &&
         other.profileImg == profileImg &&
@@ -74,7 +81,8 @@ class AppUser {
 
   @override
   int get hashCode {
-    return username.hashCode ^
+    return id.hashCode ^
+        username.hashCode ^
         name.hashCode ^
         email.hashCode ^
         profileImg.hashCode ^
