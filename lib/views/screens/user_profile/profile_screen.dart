@@ -25,7 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
             .collection("Users")
-            .doc(currentUser.email)
+            .doc(currentUser.uid)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
