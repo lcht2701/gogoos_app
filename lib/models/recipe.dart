@@ -3,84 +3,86 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:gogoos_app/models/user.dart';
-
 import 'ingredient.dart';
+import 'review.dart';
+import 'tutorial_step.dart';
 
 class Recipe {
-  String id;
-  String name;
+  String title;
+  String photo;
+  String calories;
+  String time;
   String description;
-  double rating;
-  int cookingTime;
-  int serving;
-  String imgUrl;
-  //sub-collection
-  AppUser user;
+
   List<Ingredient> ingredients;
+  List<TutorialStep> tutorial;
+  List<Review> reviews;
   Recipe({
-    required this.id,
-    required this.name,
+    required this.title,
+    required this.photo,
+    required this.calories,
+    required this.time,
     required this.description,
-    required this.rating,
-    required this.cookingTime,
-    required this.serving,
-    required this.imgUrl,
-    required this.user,
     required this.ingredients,
+    required this.tutorial,
+    required this.reviews,
   });
 
   Recipe copyWith({
-    String? id,
-    String? name,
+    String? title,
+    String? photo,
+    String? calories,
+    String? time,
     String? description,
-    double? rating,
-    int? cookingTime,
-    int? serving,
-    String? imgUrl,
-    AppUser? user,
     List<Ingredient>? ingredients,
+    List<TutorialStep>? tutorial,
+    List<Review>? reviews,
   }) {
     return Recipe(
-      id: id ?? this.id,
-      name: name ?? this.name,
+      title: title ?? this.title,
+      photo: photo ?? this.photo,
+      calories: calories ?? this.calories,
+      time: time ?? this.time,
       description: description ?? this.description,
-      rating: rating ?? this.rating,
-      cookingTime: cookingTime ?? this.cookingTime,
-      serving: serving ?? this.serving,
-      imgUrl: imgUrl ?? this.imgUrl,
-      user: user ?? this.user,
       ingredients: ingredients ?? this.ingredients,
+      tutorial: tutorial ?? this.tutorial,
+      reviews: reviews ?? this.reviews,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
-      'name': name,
+      'title': title,
+      'photo': photo,
+      'calories': calories,
+      'time': time,
       'description': description,
-      'rating': rating,
-      'cookingTime': cookingTime,
-      'serving': serving,
-      'imgUrl': imgUrl,
-      'user': user.toMap(),
       'ingredients': ingredients.map((x) => x.toMap()).toList(),
+      'tutorial': tutorial.map((x) => x.toMap()).toList(),
+      'reviews': reviews.map((x) => x.toMap()).toList(),
     };
   }
 
   factory Recipe.fromMap(Map<String, dynamic> map) {
     return Recipe(
-      id: map['id'] as String,
-      name: map['name'] as String,
+      title: map['title'] as String,
+      photo: map['photo'] as String,
+      calories: map['calories'] as String,
+      time: map['time'] as String,
       description: map['description'] as String,
-      rating: map['rating'] as double,
-      cookingTime: map['cookingTime'] as int,
-      serving: map['serving'] as int,
-      imgUrl: map['imgUrl'] as String,
-      user: AppUser.fromMap(map['user'] as Map<String, dynamic>),
       ingredients: List<Ingredient>.from(
         (map['ingredients'] as List<int>).map<Ingredient>(
           (x) => Ingredient.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
+      tutorial: List<TutorialStep>.from(
+        (map['tutorial'] as List<int>).map<TutorialStep>(
+          (x) => TutorialStep.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
+      reviews: List<Review>.from(
+        (map['reviews'] as List<int>).map<Review>(
+          (x) => Review.fromMap(x as Map<String, dynamic>),
         ),
       ),
     );
@@ -93,34 +95,32 @@ class Recipe {
 
   @override
   String toString() {
-    return 'Recipe(id: $id, name: $name, description: $description, rating: $rating, cookingTime: $cookingTime, serving: $serving, imgUrl: $imgUrl, user: $user, ingredients: $ingredients)';
+    return 'Recipe(title: $title, photo: $photo, calories: $calories, time: $time, description: $description, ingredients: $ingredients, tutorial: $tutorial, reviews: $reviews)';
   }
 
   @override
   bool operator ==(covariant Recipe other) {
     if (identical(this, other)) return true;
 
-    return other.id == id &&
-        other.name == name &&
+    return other.title == title &&
+        other.photo == photo &&
+        other.calories == calories &&
+        other.time == time &&
         other.description == description &&
-        other.rating == rating &&
-        other.cookingTime == cookingTime &&
-        other.serving == serving &&
-        other.imgUrl == imgUrl &&
-        other.user == user &&
-        listEquals(other.ingredients, ingredients);
+        listEquals(other.ingredients, ingredients) &&
+        listEquals(other.tutorial, tutorial) &&
+        listEquals(other.reviews, reviews);
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^
-        name.hashCode ^
+    return title.hashCode ^
+        photo.hashCode ^
+        calories.hashCode ^
+        time.hashCode ^
         description.hashCode ^
-        rating.hashCode ^
-        cookingTime.hashCode ^
-        serving.hashCode ^
-        imgUrl.hashCode ^
-        user.hashCode ^
-        ingredients.hashCode;
+        ingredients.hashCode ^
+        tutorial.hashCode ^
+        reviews.hashCode;
   }
 }

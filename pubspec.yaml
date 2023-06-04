@@ -46,6 +46,7 @@ dependencies:
   flutter_native_splash: ^2.3.0
   image_picker: ^0.8.7+5
   firebase_storage: ^11.2.2
+  line_awesome_flutter: ^2.0.0
 
 flutter_native_splash:
   android: true

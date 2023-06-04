@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gogoos_app/views/screens/user_profile/components/profile_header.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
-import 'package:gogoos_app/views/widgets/button.dart';
 
 import '../../../controllers/auth_controller.dart';
 import '../../../controllers/user_controller.dart';
