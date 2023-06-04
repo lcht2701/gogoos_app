@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gogoos_app/views/screens/forgot_password_screen.dart';
+import 'package:gogoos_app/views/auth/forgot_password_screen.dart';
 import 'package:gogoos_app/views/widgets/button.dart';
 import 'package:gogoos_app/views/widgets/text_field.dart';
 
 import '../../controllers/auth_controller.dart';
 import '../utils/app_color.dart';
-import '../widgets/welcome_signature.dart';
+import 'components/welcome_signature.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {

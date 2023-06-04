@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gogoos_app/views/screens/login_screen.dart';
+import 'package:gogoos_app/views/auth/login_screen.dart';
 import 'package:gogoos_app/views/widgets/button.dart';
 
 import '../utils/app_color.dart';
 import '../widgets/text_field.dart';
-import '../widgets/welcome_signature.dart';
+import 'components/welcome_signature.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gogoos_app/views/screens/user_profile/profile_screen.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
-import 'package:gogoos_app/views/widgets/top_recipe_card.dart';
+import 'package:gogoos_app/views/screens/homescreen/components/top_recipe_card.dart';
 import 'package:molten_navigationbar_flutter/molten_navigationbar_flutter.dart';
 
-import '../../widgets/recipe_tile.dart';
-import '../../widgets/search_with_filter.dart';
+import 'components/recipe_tile.dart';
+import 'components/search_with_filter.dart';
 import 'components/homepage_functions.dart';
 import 'components/homepage_header.dart';
 
@@ -95,15 +95,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 180,
                     child: ListView.separated(
                       shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       itemCount: 4,
-                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       separatorBuilder: (context, index) {
-                        return SizedBox(width: 16);
+                        return const SizedBox(width: 16);
                       },
                       itemBuilder: (context, index) {
-                        return TopRecipeCard();
+                        return const TopRecipeCard();
                       },
                     ),
                   ),

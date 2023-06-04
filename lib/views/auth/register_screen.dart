@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gogoos_app/views/screens/login_screen.dart';
+import 'package:gogoos_app/views/auth/login_screen.dart';
 import 'package:gogoos_app/views/widgets/button.dart';
 import 'package:gogoos_app/views/widgets/text_field.dart';
 
 import '../../controllers/auth_controller.dart';
 import '../utils/app_color.dart';
-import '../widgets/welcome_signature.dart';
+import 'components/welcome_signature.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
