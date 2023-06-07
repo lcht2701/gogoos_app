@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../../../models/ingredient.dart';
 
-class IngridientTile extends StatelessWidget {
+class IngredientTile extends StatelessWidget {
   final Ingredient data;
-  const IngridientTile({super.key, required this.data});
+  const IngredientTile({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class IngridientTile extends StatelessWidget {
           Flexible(
             flex: 3,
             child: Text(
-              '${data.amount}+ ${data.unit}',
+              '${data.amount} ${data.unit}',
               style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,

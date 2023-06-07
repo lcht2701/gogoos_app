@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gogoos_app/views/utils/app_color.dart';
 
 class ProfileMenuWidget extends StatelessWidget {
   const ProfileMenuWidget({

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gogoos_app/views/auth/login_screen.dart';
 import 'package:gogoos_app/views/widgets/button.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 import '../utils/app_color.dart';
 import '../widgets/text_field.dart';
@@ -61,7 +62,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         obsecureText: false,
                         color: AppColor.lightColor,
                         inputType: TextInputType.emailAddress,
-                        icon: const Icon(Icons.mail)),
+                        icon: const Icon(LineAwesomeIcons.envelope)),
                   ],
                 ),
                 Mybutton(
@@ -87,8 +88,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const LoginScreen()));
                 },
                 child: Text(
                   'Sign In Now!',

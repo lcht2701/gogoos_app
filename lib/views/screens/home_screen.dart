@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:gogoos_app/views/screens/user_profile/profile_screen.dart';
+import 'package:gogoos_app/views/screens/profile_screen.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
-import 'package:gogoos_app/views/screens/homescreen/components/top_recipe_card.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:molten_navigationbar_flutter/molten_navigationbar_flutter.dart';
 
-import 'components/recipe_tile.dart';
-import 'components/search_with_filter.dart';
-import 'components/homepage_functions.dart';
-import 'components/homepage_header.dart';
+import '../widgets/all_recipe_tile.dart';
+import '../widgets/homescreen_functions.dart';
+import '../widgets/homescreen_header.dart';
+import '../widgets/top_recipe_card.dart';
+import 'add_recipe_screen.dart';
+import 'search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -51,15 +53,13 @@ class _HomeScreenState extends State<HomeScreen> {
             physics: const BouncingScrollPhysics(),
             child: Container(
               margin: const EdgeInsets.only(
-                top: 32,
+                top: 40,
                 left: 16,
                 right: 16,
               ),
               child: Column(
                 children: [
                   const HomeScreenHeader(),
-                  const SizedBox(height: 14),
-                  const SearchWithFilter(),
                   const SizedBox(height: 14),
                   const HomeScreenFunctions(),
                   Container(
@@ -88,10 +88,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
+                  const SizedBox(height: 8),
                   SizedBox(
-                    height: 8,
-                  ),
-                  Container(
                     height: 180,
                     child: ListView.separated(
                       shrinkWrap: true,
@@ -134,23 +132,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  ListView.separated(
-                    padding: EdgeInsets.all(8),
-                    shrinkWrap: true,
-                    itemCount: 10,
-                    physics: BouncingScrollPhysics(),
-                    separatorBuilder: (context, index) {
-                      return SizedBox(height: 8);
-                    },
-                    itemBuilder: (context, index) {
-                      return RecipeTile();
-                    },
-                  ),
+                  const AllRecipesTile(),
                 ],
               ),
             ),
           ),
-          const ProfileScreen(),
+          const SearchScreen(),
+          const AddRecipeScreen(),
           const ProfileScreen(),
           const ProfileScreen(),
         ],
@@ -166,16 +154,19 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         tabs: [
           MoltenTab(
-            icon: const Icon(Icons.home_outlined),
+            icon: const Icon(LineAwesomeIcons.home),
           ),
           MoltenTab(
-            icon: const Icon(Icons.search),
+            icon: const Icon(LineAwesomeIcons.search),
           ),
           MoltenTab(
-            icon: const Icon(Icons.chat_bubble_outline),
+            icon: const Icon(LineAwesomeIcons.plus),
           ),
           MoltenTab(
-            icon: const Icon(Icons.person_outline),
+            icon: const Icon(LineAwesomeIcons.sms),
+          ),
+          MoltenTab(
+            icon: const Icon(LineAwesomeIcons.user),
           ),
         ],
       ),

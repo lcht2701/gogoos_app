@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gogoos_app/views/auth/login_screen.dart';
 import 'package:gogoos_app/views/widgets/button.dart';
 import 'package:gogoos_app/views/widgets/text_field.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 import '../../controllers/auth_controller.dart';
 import '../utils/app_color.dart';
@@ -110,28 +111,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         obsecureText: false,
                         color: AppColor.lightColor,
                         inputType: TextInputType.text,
-                        icon: const Icon(Icons.text_fields)),
+                        icon: const Icon(LineAwesomeIcons.user)),
                     MyTextField(
                         controller: _emailTextController,
                         hintText: 'Email Address',
                         obsecureText: false,
                         color: AppColor.lightColor,
                         inputType: TextInputType.emailAddress,
-                        icon: const Icon(Icons.mail)),
+                        icon: const Icon(LineAwesomeIcons.envelope)),
                     MyTextField(
                         controller: _passwordTextController,
                         hintText: 'Password',
                         obsecureText: true,
                         color: AppColor.lightColor,
                         inputType: TextInputType.visiblePassword,
-                        icon: const Icon(Icons.key)),
+                        icon: const Icon(LineAwesomeIcons.key)),
                     MyTextField(
                         controller: _confirmpasswordTextController,
                         hintText: 'Confirm Password',
                         obsecureText: true,
                         color: AppColor.lightColor,
                         inputType: TextInputType.visiblePassword,
-                        icon: const Icon(Icons.key)),
+                        icon: const Icon(LineAwesomeIcons.key)),
                   ],
                 ),
                 Mybutton(
@@ -157,8 +158,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const LoginScreen()));
                 },
                 child: Text(
                   'Sign In Now!',

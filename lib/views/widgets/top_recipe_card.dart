@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 import '../../../../models/recipe.dart';
 
@@ -51,14 +53,14 @@ class _TopRecipeCardState extends State<TopRecipeCard> {
             Row(
               children: [
                 const Icon(
-                  Icons.alarm,
-                  size: 12,
+                  LineAwesomeIcons.stopwatch,
+                  size: 20,
                   color: Colors.black,
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 5),
                   child: Text(
-                    widget.recipe!.time,
+                    '${widget.recipe?.time} min',
                     style: const TextStyle(fontSize: 10),
                   ),
                 ),
@@ -68,14 +70,14 @@ class _TopRecipeCardState extends State<TopRecipeCard> {
             Row(
               children: [
                 const Icon(
-                  Icons.lock_clock,
-                  size: 12,
+                  LineAwesomeIcons.fire,
+                  size: 20,
                   color: Colors.black,
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 5),
                   child: Text(
-                    widget.recipe!.time,
+                    '${widget.recipe?.calories} calories',
                     style: const TextStyle(fontSize: 10),
                   ),
                 ),

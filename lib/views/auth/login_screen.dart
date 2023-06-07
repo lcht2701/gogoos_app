@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gogoos_app/views/auth/forgot_password_screen.dart';
 import 'package:gogoos_app/views/widgets/button.dart';
 import 'package:gogoos_app/views/widgets/text_field.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 import '../../controllers/auth_controller.dart';
 import '../utils/app_color.dart';
@@ -99,14 +100,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         obsecureText: false,
                         color: AppColor.lightColor,
                         inputType: TextInputType.emailAddress,
-                        icon: const Icon(Icons.mail)),
+                        icon: const Icon(LineAwesomeIcons.envelope)),
                     MyTextField(
                         controller: _passwordTextController,
                         hintText: 'Password',
                         obsecureText: true,
                         color: AppColor.lightColor,
                         inputType: TextInputType.visiblePassword,
-                        icon: const Icon(Icons.key)),
+                        icon: const Icon(LineAwesomeIcons.key)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
