@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../../models/tutorial_step.dart';
+import '../../../../models/tutorial.dart';
 
-class StepTile extends StatelessWidget {
-  final TutorialStep data;
+class TutorialTile extends StatelessWidget {
+  final Tutorial data;
 
-  const StepTile({super.key, required this.data});
+  const TutorialTile({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {

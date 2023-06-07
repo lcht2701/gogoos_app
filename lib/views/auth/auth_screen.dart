@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../screens/homescreen/home_screen.dart';
+import '../screens/home_screen.dart';
 import 'login_screen.dart';
 
 class AuthScreen extends StatelessWidget {

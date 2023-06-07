@@ -1,13 +1,16 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gogoos_app/models/recipe.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
-import 'components/full_screen_image.dart';
-import 'components/ingridient_tile.dart';
-import 'components/review_tile.dart';
-import 'components/step_tile.dart';
+import '../widgets/full_screen_image.dart';
+import '../widgets/ingredient_tile.dart';
+import '../widgets/review_tile.dart';
+import '../widgets/tutorial_tile.dart';
 
 class RecipeDetailScreen extends StatefulWidget {
   final Recipe data;
@@ -77,18 +80,21 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
             title: const Text('Search Recipe',
                 style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16)),
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+              icon:
+                  const Icon(LineAwesomeIcons.angle_left, color: Colors.white),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             actions: [
               IconButton(
-                  onPressed: () {},
-                  icon: SvgPicture.asset('assets/icons/bookmark.svg',
-                      color: Colors.white)),
+                onPressed: () {},
+                icon: const Icon(
+                  LineAwesomeIcons.bookmark,
+                  color: Colors.white,
+                ),
+              ),
             ],
-            systemOverlayStyle: SystemUiOverlayStyle.light,
           ),
         ),
       ),
@@ -107,7 +113,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
                       color: Colors.white,
                       child: const TextField(
                         keyboardType: TextInputType.multiline,
-                        minLines: 6,
+                        minLines: 4,
                         decoration: InputDecoration(
                           hintText: 'Write your review here...',
                         ),
@@ -147,7 +153,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
                 });
           },
           backgroundColor: AppColor.orangeColor,
-          child: const Icon(Icons.edit),
+          child: const Icon(LineAwesomeIcons.edit),
         ),
       ),
       body: ListView(
@@ -161,18 +167,19 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => FullScreenImage(
-                      image:
-                          Image.asset(widget.data.photo, fit: BoxFit.cover))));
+                      image: Image.asset(widget.data.photoUrl,
+                          fit: BoxFit.cover))));
             },
             child: Container(
-              height: 180,
+              height: 200,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage(widget.data.photo), fit: BoxFit.cover)),
+                      image: AssetImage(widget.data.photoUrl),
+                      fit: BoxFit.cover)),
               child: Container(
                 decoration: BoxDecoration(gradient: AppColor.linearBlackTop),
-                height: 300,
+                height: 280,
                 width: MediaQuery.of(context).size.width,
               ),
             ),
@@ -204,26 +211,29 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SvgPicture.asset(
-                      'assets/icons/fire-filled.svg',
-                      width: 16,
-                      height: 16,
+                    const Icon(
+                      LineAwesomeIcons.fire,
+                      size: 20,
                       color: Colors.white,
                     ),
                     Container(
                       margin: const EdgeInsets.only(left: 5),
                       child: Text(
-                        widget.data.calories,
+                        '${widget.data.calories} calories',
                         style:
                             const TextStyle(color: Colors.white, fontSize: 12),
                       ),
                     ),
                     const SizedBox(width: 10),
-                    const Icon(Icons.alarm, size: 16, color: Colors.white),
+                    const Icon(
+                      LineAwesomeIcons.stopwatch,
+                      size: 20,
+                      color: Colors.white,
+                    ),
                     Container(
                       margin: const EdgeInsets.only(),
                       child: Text(
-                        widget.data.time,
+                        '${widget.data.time} min',
                         style:
                             const TextStyle(color: Colors.white, fontSize: 12),
                       ),
@@ -233,18 +243,13 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
                 // Recipe Description
                 Container(
                   margin: const EdgeInsets.only(top: 5),
-                  // margin: const EdgeInsets.only(right: 250.0),
-                  // margin: const EdgeInsetsDirectional.only(end: 150),
-                  // padding: const EdgeInsetsDirectional.only(start: .0),
-                  // decoration: BoxDecoration(
-                  //     border: Border.all(color: Colors.grey.shade600)),
                   child: Text(
                     widget.data.description,
                     maxLines: 2,
                     style: TextStyle(
-                        color: Colors.white.withOpacity(0.9),
-                        fontSize: 14,
-                        height: 150 / 100),
+                      color: Colors.white.withOpacity(0.9),
+                      fontSize: 14,
+                    ),
                   ),
                 )
               ],
@@ -288,11 +293,11 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
               ListView.builder(
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                itemCount: widget.data.ingredients.length,
+                itemCount: widget.data.ingredients!.length,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return IngridientTile(
-                    data: widget.data.ingredients[index],
+                  return IngredientTile(
+                    data: widget.data.ingredients![index],
                   );
                 },
               ),
@@ -300,11 +305,11 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
               ListView.builder(
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                itemCount: widget.data.tutorial.length,
+                itemCount: widget.data.tutorials!.length,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return StepTile(
-                    data: widget.data.tutorial[index],
+                  return TutorialTile(
+                    data: widget.data.tutorials![index],
                   );
                 },
               ),
@@ -312,10 +317,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
               ListView.builder(
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                itemCount: widget.data.reviews.length,
+                itemCount: widget.data.reviews!.length,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return ReviewTile(data: widget.data.reviews[index]);
+                  return ReviewTile(data: widget.data.reviews![index]);
                 },
               )
             ],

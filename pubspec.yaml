@@ -40,9 +40,7 @@ dependencies:
   flutter_svg: ^2.0.6
   molten_navigationbar_flutter: ^1.0.1
   firebase_auth: ^4.6.1
-  get: ^4.6.5
   cloud_firestore: ^4.8.0
-  get_storage: ^2.1.1
   flutter_native_splash: ^2.3.0
   image_picker: ^0.8.7+5
   firebase_storage: ^11.2.2

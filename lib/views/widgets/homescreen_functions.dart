@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 class HomeScreenFunctions extends StatefulWidget {
   const HomeScreenFunctions({super.key});
@@ -19,12 +20,12 @@ class _HomeScreenFunctionsState extends State<HomeScreenFunctions> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           IconButton(
-            icon: Icon(Icons.book),
+            icon: const Icon(LineAwesomeIcons.book),
             iconSize: 36,
             onPressed: () {},
           ),
           IconButton(
-            icon: Icon(Icons.book),
+            icon: const Icon(LineAwesomeIcons.book),
             iconSize: 36,
             onPressed: () {},
           ),
