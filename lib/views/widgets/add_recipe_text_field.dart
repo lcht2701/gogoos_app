@@ -56,32 +56,26 @@ class _AddRecipeTextFieldState extends State<AddRecipeTextField> {
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 10),
-          SizedBox(
-            height: 45,
-            width: MediaQuery.of(context).size.width,
-            child: TextFormField(
-              controller: widget.controller,
-              cursorHeight: 16,
-              cursorColor: Colors.black,
-              keyboardType: widget.inputType,
-              style: const TextStyle(color: Colors.black, fontSize: 16),
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: _errorText != null
-                        ? Colors.red
-                        : const Color(0xffc6cfdc),
-                  ),
+          TextField(
+            controller: widget.controller,
+            cursorColor: Colors.black,
+            keyboardType: widget.inputType,
+            style: const TextStyle(color: Colors.black, fontSize: 16),
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(12),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color:
+                      _errorText != null ? Colors.red : const Color(0xffc6cfdc),
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: _errorText != null
-                        ? Colors.red
-                        : const Color(0xFF848A92),
-                  ),
-                ),
-                errorText: _errorText,
               ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color:
+                      _errorText != null ? Colors.red : const Color(0xFF848A92),
+                ),
+              ),
+              errorText: _errorText,
             ),
           ),
         ],
