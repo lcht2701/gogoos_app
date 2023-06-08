@@ -1,8 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gogoos_app/models/recipe.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -165,17 +163,19 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
           // Section 1 - Recipe Image
           GestureDetector(
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => FullScreenImage(
-                      image: Image.asset(widget.data.photoUrl,
-                          fit: BoxFit.cover))));
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) =>
+                      FullScreenImage(image: widget.data.photoUrl),
+                ),
+              );
             },
             child: Container(
               height: 200,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage(widget.data.photoUrl),
+                      image: NetworkImage(widget.data.photoUrl),
                       fit: BoxFit.cover)),
               child: Container(
                 decoration: BoxDecoration(gradient: AppColor.linearBlackTop),
@@ -289,40 +289,50 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
           IndexedStack(
             index: _tabController.index,
             children: [
-              // Ingridients
+              // Ingredients
               ListView.builder(
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                itemCount: widget.data.ingredients!.length,
+                itemCount: _tabController.index == 0
+                    ? widget.data
+                        .getIngredientsForRecipeId(widget.data.id)
+                        .length
+                    : 0,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return IngredientTile(
-                    data: widget.data.ingredients![index],
-                  );
+                  final ingredients =
+                      widget.data.getIngredientsForRecipeId(widget.data.id);
+                  return IngredientTile(data: ingredients[index]);
                 },
               ),
               // Tutorials
               ListView.builder(
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                itemCount: widget.data.tutorials!.length,
+                itemCount: _tabController.index == 1
+                    ? widget.data.getTutorialsForRecipeId(widget.data.id).length
+                    : 0,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return TutorialTile(
-                    data: widget.data.tutorials![index],
-                  );
+                  final tutorials =
+                      widget.data.getTutorialsForRecipeId(widget.data.id);
+                  return TutorialTile(data: tutorials[index]);
                 },
               ),
               // Reviews
               ListView.builder(
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                itemCount: widget.data.reviews!.length,
+                itemCount: _tabController.index == 2
+                    ? widget.data.getReviewsForRecipeId(widget.data.id).length
+                    : 0,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return ReviewTile(data: widget.data.reviews![index]);
+                  final reviews =
+                      widget.data.getReviewsForRecipeId(widget.data.id);
+                  return ReviewTile(data: reviews[index]);
                 },
-              )
+              ),
             ],
           ),
         ],

@@ -4,6 +4,8 @@ import 'package:gogoos_app/views/utils/app_color.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:molten_navigationbar_flutter/molten_navigationbar_flutter.dart';
 
+import '../../controllers/recipe_controller.dart';
+import '../../models/recipe.dart';
 import '../widgets/all_recipe_tile.dart';
 import '../widgets/homescreen_functions.dart';
 import '../widgets/homescreen_header.dart';
@@ -49,14 +51,13 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         },
         children: [
-          SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Container(
-              margin: const EdgeInsets.only(
-                top: 40,
-                left: 16,
-                right: 16,
-              ),
+          Container(
+            margin: const EdgeInsets.only(
+              top: 40,
+              left: 16,
+              right: 16,
+            ),
+            child: SingleChildScrollView(
               child: Column(
                 children: [
                   const HomeScreenHeader(),
@@ -76,34 +77,23 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'See All',
-                              style: TextStyle(
-                                color: AppColor.orangeColor,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 18,
-                              ),
-                            ))
+                          onPressed: () {},
+                          child: Text(
+                            'See All',
+                            style: TextStyle(
+                              color: AppColor.orangeColor,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   const SizedBox(height: 8),
                   SizedBox(
-                    height: 180,
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 4,
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(width: 16);
-                      },
-                      itemBuilder: (context, index) {
-                        return const TopRecipeCard();
-                      },
-                    ),
+                    height: 190,
+                    child: TopRecipeCard(),
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -140,7 +130,6 @@ class _HomeScreenState extends State<HomeScreen> {
           const SearchScreen(),
           const AddRecipeScreen(),
           const ProfileScreen(),
-          const ProfileScreen(),
         ],
       ),
       bottomNavigationBar: MoltenBottomNavigationBar(
@@ -161,9 +150,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           MoltenTab(
             icon: const Icon(LineAwesomeIcons.plus),
-          ),
-          MoltenTab(
-            icon: const Icon(LineAwesomeIcons.sms),
           ),
           MoltenTab(
             icon: const Icon(LineAwesomeIcons.user),

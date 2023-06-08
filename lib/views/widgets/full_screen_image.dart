@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class FullScreenImage extends StatelessWidget {
-  final Widget image;
-  const FullScreenImage({super.key, required this.image});
+  final String image;
+
+  const FullScreenImage({Key? key, required this.image}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class FullScreenImage extends StatelessWidget {
         child: Container(
           width: MediaQuery.of(context).size.width,
           // Image Widget
-          child: image,
+          child: Image(image: NetworkImage(image)),
         ),
       ),
     );

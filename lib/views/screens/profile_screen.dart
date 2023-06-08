@@ -5,7 +5,6 @@ import 'package:gogoos_app/views/utils/app_color.dart';
 
 import '../../controllers/auth_controller.dart';
 import '../../controllers/user_controller.dart';
-import '../widgets/profile_header.dart';
 import '../widgets/profile_menu_widget.dart';
 import '../widgets/profile_text_box.dart';
 
@@ -71,6 +70,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(
+          'My Profile',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+      ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
             .collection("Users")
@@ -82,13 +94,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             return SingleChildScrollView(
               child: Container(
                 margin: const EdgeInsets.only(
-                  top: 32,
                   left: 16,
                   right: 16,
                 ),
                 child: Column(
                   children: [
-                    const ProfileScreenHeader(),
                     const SizedBox(height: 20),
 
                     /// -- IMAGE
