@@ -216,11 +216,7 @@ class RecipeController {
   }
 
   Future<String> uploadRecipeImg() async {
-    final image = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 512,
-      maxHeight: 512,
-    );
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (image == null) {
       // No image selected
@@ -229,7 +225,7 @@ class RecipeController {
     String? currentUserId = FirebaseAuth.instance.currentUser!.email;
     // Generate a unique filename using a combination of UUID and timestamp
     String fileName =
-        '${currentUserId?.split('@')[0]}_${shortid.generate()}.jpg';
+        '${currentUserId?.split('@')[0]}_recipe_${shortid.generate()}.jpg';
 
     Reference ref = FirebaseStorage.instance.ref().child(fileName);
     await ref.putFile(File(image.path));
