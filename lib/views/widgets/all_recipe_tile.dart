@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gogoos_app/controllers/recipe_controller.dart';
 import 'package:gogoos_app/models/recipe.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';

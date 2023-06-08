@@ -5,21 +5,25 @@ class Review {
   String id;
   String username;
   String review;
+  String? recipeId;
   Review({
     required this.id,
     required this.username,
     required this.review,
+    this.recipeId,
   });
 
   Review copyWith({
     String? id,
     String? username,
     String? review,
+    String? recipeId,
   }) {
     return Review(
       id: id ?? this.id,
       username: username ?? this.username,
       review: review ?? this.review,
+      recipeId: recipeId ?? this.recipeId,
     );
   }
 
@@ -28,6 +32,7 @@ class Review {
       'id': id,
       'username': username,
       'review': review,
+      'recipeId': recipeId,
     };
   }
 
@@ -36,6 +41,7 @@ class Review {
       id: map['id'] as String,
       username: map['username'] as String,
       review: map['review'] as String,
+      recipeId: map['recipeId'] != null ? map['recipeId'] as String : null,
     );
   }
 
@@ -45,7 +51,9 @@ class Review {
       Review.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'Review(id: $id, username: $username, review: $review)';
+  String toString() {
+    return 'Review(id: $id, username: $username, review: $review, recipeId: $recipeId)';
+  }
 
   @override
   bool operator ==(covariant Review other) {
@@ -53,9 +61,15 @@ class Review {
 
     return other.id == id &&
         other.username == username &&
-        other.review == review;
+        other.review == review &&
+        other.recipeId == recipeId;
   }
 
   @override
-  int get hashCode => id.hashCode ^ username.hashCode ^ review.hashCode;
+  int get hashCode {
+    return id.hashCode ^
+        username.hashCode ^
+        review.hashCode ^
+        recipeId.hashCode;
+  }
 }

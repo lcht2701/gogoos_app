@@ -1,91 +1,144 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
-import '../../../../models/recipe.dart';
+import 'package:gogoos_app/controllers/recipe_controller.dart';
+import 'package:gogoos_app/models/recipe.dart';
 
-class TopRecipeCard extends StatefulWidget {
-  final Recipe? recipe;
-  const TopRecipeCard({Key? key, this.recipe}) : super(key: key);
+import '../screens/detail_recipe_screen.dart';
+import '../utils/app_color.dart';
 
-  @override
-  State<TopRecipeCard> createState() => _TopRecipeCardState();
-}
-
-class _TopRecipeCardState extends State<TopRecipeCard> {
+class TopRecipeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Recipe Photo
-        Container(
-          height: 120,
-          width: MediaQuery.of(context).size.width * 45 / 100,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.blueGrey,
-            image: const DecorationImage(
-              image: AssetImage('assets/images/pancake.jpg'),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        // Recipe title
-        Container(
-          margin: const EdgeInsets.only(top: 10, bottom: 8),
-          padding: const EdgeInsets.only(left: 4),
-          child: Text(
-            // data.title,
-            widget.recipe!.title,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        // Recipe calories and time
-        Row(
-          children: [
-            Row(
-              children: [
-                const Icon(
-                  LineAwesomeIcons.stopwatch,
-                  size: 20,
-                  color: Colors.black,
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 5),
-                  child: Text(
-                    '${widget.recipe?.time} min',
-                    style: const TextStyle(fontSize: 10),
+    Future<List<Recipe>> topRecipesFuture = RecipeController().getTopRecipes();
+
+    return FutureBuilder<List<Recipe>>(
+      future: topRecipesFuture,
+      builder: (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+
+        List<Recipe> recipes = snapshot.data ?? [];
+        return SizedBox(
+          child: ListView.separated(
+            shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            itemCount: recipes.length,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            separatorBuilder: (context, index) {
+              return const SizedBox(width: 16);
+            },
+            itemBuilder: (context, index) {
+              Recipe recipe = recipes[index];
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RecipeDetailScreen(data: recipe),
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColor.primaryColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Recipe Photo
+                      Container(
+                        width: MediaQuery.of(context).size.width * 45 / 100,
+                        height: 120,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.blueGrey,
+                          image: DecorationImage(
+                            image: NetworkImage(recipe.photoUrl),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      // Recipe Info
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 5),
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Recipe title
+                              Container(
+                                margin: const EdgeInsets.only(bottom: 12),
+                                child: Text(
+                                  recipe.title,
+                                  maxLines: 1,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'inter',
+                                  ),
+                                ),
+                              ),
+                              // Recipe Calories and Time
+                              Row(
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        LineAwesomeIcons.stopwatch,
+                                        size: 20,
+                                        color: Colors.black,
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.only(left: 5),
+                                        child: Text(
+                                          '${recipe.time} min',
+                                          style: const TextStyle(fontSize: 10),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        LineAwesomeIcons.fire,
+                                        size: 20,
+                                        color: Colors.black,
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.only(left: 5),
+                                        child: Text(
+                                          '${recipe.calories} cal',
+                                          style: const TextStyle(fontSize: 10),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(width: 10),
-            Row(
-              children: [
-                const Icon(
-                  LineAwesomeIcons.fire,
-                  size: 20,
-                  color: Colors.black,
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 5),
-                  child: Text(
-                    '${widget.recipe?.calories} calories',
-                    style: const TextStyle(fontSize: 10),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        )
-      ],
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

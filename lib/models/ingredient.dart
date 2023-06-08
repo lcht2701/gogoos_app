@@ -4,13 +4,15 @@ import 'dart:convert';
 class Ingredient {
   String id;
   String name;
-  int amount;
-  String unit;
+  int? amount;
+  String? unit;
+  String? recipeId;
   Ingredient({
     required this.id,
     required this.name,
-    required this.amount,
-    required this.unit,
+    this.amount,
+    this.unit,
+    this.recipeId,
   });
 
   Ingredient copyWith({
@@ -18,12 +20,14 @@ class Ingredient {
     String? name,
     int? amount,
     String? unit,
+    String? recipeId,
   }) {
     return Ingredient(
       id: id ?? this.id,
       name: name ?? this.name,
       amount: amount ?? this.amount,
       unit: unit ?? this.unit,
+      recipeId: recipeId ?? this.recipeId,
     );
   }
 
@@ -33,6 +37,7 @@ class Ingredient {
       'name': name,
       'amount': amount,
       'unit': unit,
+      'recipeId': recipeId,
     };
   }
 
@@ -40,8 +45,9 @@ class Ingredient {
     return Ingredient(
       id: map['id'] as String,
       name: map['name'] as String,
-      amount: map['amount'] as int,
-      unit: map['unit'] as String,
+      amount: map['amount'] != null ? map['amount'] as int : null,
+      unit: map['unit'] != null ? map['unit'] as String : null,
+      recipeId: map['recipeId'] != null ? map['recipeId'] as String : null,
     );
   }
 
@@ -52,7 +58,7 @@ class Ingredient {
 
   @override
   String toString() {
-    return 'Ingredient(id: $id, name: $name, amount: $amount, unit: $unit)';
+    return 'Ingredient(id: $id, name: $name, amount: $amount, unit: $unit, recipeId: $recipeId)';
   }
 
   @override
@@ -62,11 +68,16 @@ class Ingredient {
     return other.id == id &&
         other.name == name &&
         other.amount == amount &&
-        other.unit == unit;
+        other.unit == unit &&
+        other.recipeId == recipeId;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ name.hashCode ^ amount.hashCode ^ unit.hashCode;
+    return id.hashCode ^
+        name.hashCode ^
+        amount.hashCode ^
+        unit.hashCode ^
+        recipeId.hashCode;
   }
 }

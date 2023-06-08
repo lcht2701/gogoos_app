@@ -18,6 +18,10 @@ class Recipe {
   List<Ingredient>? ingredients;
   List<Tutorial>? tutorials;
   List<Review>? reviews;
+
+  //recipe define
+  final bool isTopRecipe;
+
   Recipe({
     required this.id,
     required this.title,
@@ -28,6 +32,7 @@ class Recipe {
     this.ingredients,
     this.tutorials,
     this.reviews,
+    required this.isTopRecipe,
   });
 
   Recipe copyWith({
@@ -40,6 +45,7 @@ class Recipe {
     List<Ingredient>? ingredients,
     List<Tutorial>? tutorials,
     List<Review>? reviews,
+    bool? isTopRecipe,
   }) {
     return Recipe(
       id: id ?? this.id,
@@ -51,6 +57,7 @@ class Recipe {
       ingredients: ingredients ?? this.ingredients,
       tutorials: tutorials ?? this.tutorials,
       reviews: reviews ?? this.reviews,
+      isTopRecipe: isTopRecipe ?? this.isTopRecipe,
     );
   }
 
@@ -65,6 +72,7 @@ class Recipe {
       'ingredients': ingredients?.map((x) => x.toMap()).toList(),
       'tutorials': tutorials?.map((x) => x.toMap()).toList(),
       'reviews': reviews?.map((x) => x.toMap()).toList(),
+      'isTopRecipe': isTopRecipe,
     };
   }
 
@@ -97,6 +105,7 @@ class Recipe {
               ),
             )
           : null,
+      isTopRecipe: map['isTopRecipe'] as bool,
     );
   }
 
@@ -107,7 +116,7 @@ class Recipe {
 
   @override
   String toString() {
-    return 'Recipe(id: $id, title: $title, photoUrl: $photoUrl, calories: $calories, time: $time, description: $description, ingredients: $ingredients, tutorials: $tutorials, reviews: $reviews)';
+    return 'Recipe(id: $id, title: $title, photoUrl: $photoUrl, calories: $calories, time: $time, description: $description, ingredients: $ingredients, tutorials: $tutorials, reviews: $reviews, isTopRecipe: $isTopRecipe)';
   }
 
   @override
@@ -122,7 +131,8 @@ class Recipe {
         other.description == description &&
         listEquals(other.ingredients, ingredients) &&
         listEquals(other.tutorials, tutorials) &&
-        listEquals(other.reviews, reviews);
+        listEquals(other.reviews, reviews) &&
+        other.isTopRecipe == isTopRecipe;
   }
 
   @override
@@ -135,6 +145,26 @@ class Recipe {
         description.hashCode ^
         ingredients.hashCode ^
         tutorials.hashCode ^
-        reviews.hashCode;
+        reviews.hashCode ^
+        isTopRecipe.hashCode;
+  }
+
+  // Method to fetch ingredients for a specific recipe ID
+  List<Ingredient> getIngredientsForRecipeId(String recipeId) {
+    return ingredients!
+        .where((ingredient) => ingredient.recipeId == recipeId)
+        .toList();
+  }
+
+  // Method to fetch tutorials for a specific recipe ID
+  List<Tutorial> getTutorialsForRecipeId(String recipeId) {
+    return tutorials!
+        .where((tutorial) => tutorial.recipeId == recipeId)
+        .toList();
+  }
+
+  // Method to fetch reviews for a specific recipe ID
+  List<Review> getReviewsForRecipeId(String recipeId) {
+    return reviews!.where((review) => review.recipeId == recipeId).toList();
   }
 }
