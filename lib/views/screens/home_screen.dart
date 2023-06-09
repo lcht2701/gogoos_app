@@ -4,8 +4,6 @@ import 'package:gogoos_app/views/utils/app_color.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:molten_navigationbar_flutter/molten_navigationbar_flutter.dart';
 
-import '../../controllers/recipe_controller.dart';
-import '../../models/recipe.dart';
 import '../widgets/all_recipe_tile.dart';
 import '../widgets/homescreen_functions.dart';
 import '../widgets/homescreen_header.dart';
@@ -95,32 +93,30 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 190,
                     child: TopRecipeCard(),
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Recommended',
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Recommended',
+                        style: TextStyle(
+                          color: AppColor.darkColor,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 20,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'See All',
                           style: TextStyle(
-                            color: AppColor.darkColor,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 20,
+                            color: AppColor.orangeColor,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
                           ),
                         ),
-                        TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'See All',
-                            style: TextStyle(
-                              color: AppColor.orangeColor,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   const AllRecipesTile(),
                 ],

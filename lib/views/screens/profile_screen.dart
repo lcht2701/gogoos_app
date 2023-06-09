@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 import '../../controllers/auth_controller.dart';
 import '../../controllers/user_controller.dart';
@@ -27,7 +28,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Colors.grey[800],
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(15),
+          ),
+        ),
         title: Text(
           "Edit $field",
           style: const TextStyle(color: Colors.white),
@@ -128,7 +134,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: IconButton(
                               color: Colors.white,
                               iconSize: 20,
-                              icon: const Icon(Icons.edit),
+                              icon:
+                                  const Icon(LineAwesomeIcons.alternate_pencil),
                               onPressed: () {
                                 UserController()
                                     .uploadProfileImg(); // Call the function without assigning its result
@@ -174,7 +181,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 20),
                     ProfileMenuWidget(
                       title: "Logout",
-                      icon: Icons.logout,
+                      icon: LineAwesomeIcons.alternate_sign_out,
+                      iconColor: Colors.red,
                       textColor: Colors.red,
                       endIcon: false,
                       onPress: () {

@@ -15,17 +15,19 @@ class AllRecipesTile extends StatelessWidget {
       future: RecipeController().getAllRecipes(),
       builder: (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator(); // Show a loading indicator while fetching data
+          return const CircularProgressIndicator();
         }
-
         if (snapshot.hasError) {
-          return Text(
-              'Error: ${snapshot.error}'); // Show an error message if there's an error
+          return Text('Error: ${snapshot.error}');
         }
-        List<Recipe> recipes = snapshot.data ?? []; // Retr
-        return ListView.builder(
+        List<Recipe> recipes = snapshot.data ?? [];
+        return ListView.separated(
           shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: recipes.length,
+          separatorBuilder: (BuildContext context, int index) {
+            return const SizedBox(height: 10); // Add a small gap between items
+          },
           itemBuilder: (BuildContext context, int index) {
             Recipe recipe = recipes[index];
             return GestureDetector(
@@ -44,7 +46,7 @@ class AllRecipesTile extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: AppColor.primaryColor,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(14),
                 ),
                 child: Row(
                   children: [
@@ -56,8 +58,9 @@ class AllRecipesTile extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5),
                         color: Colors.blueGrey,
                         image: DecorationImage(
-                            image: NetworkImage(recipe.photoUrl),
-                            fit: BoxFit.cover),
+                          image: NetworkImage(recipe.photoUrl),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     // Recipe Info
@@ -73,11 +76,10 @@ class AllRecipesTile extends StatelessWidget {
                             Container(
                               margin: const EdgeInsets.only(bottom: 12),
                               child: Text(
-                                // data.title,
                                 recipe.title,
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'inter'),
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                             // Recipe Calories and Time

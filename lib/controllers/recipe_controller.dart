@@ -147,10 +147,27 @@ class RecipeController {
     // Filter the list based on the search query
     List<Recipe> filteredList = recipes.where((recipe) {
       String lowercaseTitle = recipe.title.toLowerCase();
-      String lowercaseDescription = recipe.description.toLowerCase();
 
-      return lowercaseTitle.contains(lowercaseQuery) ||
-          lowercaseDescription.contains(lowercaseQuery);
+      return lowercaseTitle.contains(lowercaseQuery);
+    }).toList();
+
+    return filteredList;
+  }
+
+  List<Ingredient> searchIngredients(
+      List<Ingredient> ingredients, String searchQuery) {
+    if (searchQuery.isEmpty) {
+      // If the search query is empty, return the original list
+      return ingredients;
+    }
+
+    // Convert the search query to lowercase for case-insensitive search
+    String lowercaseQuery = searchQuery.toLowerCase();
+
+    // Filter the list based on the search query
+    List<Ingredient> filteredList = ingredients.where((ingredient) {
+      String lowercaseTitle = ingredient.name.toLowerCase();
+      return lowercaseTitle.contains(lowercaseQuery);
     }).toList();
 
     return filteredList;
