@@ -4,7 +4,7 @@ import 'dart:convert';
 class Ingredient {
   String id;
   String name;
-  int? amount;
+  String? amount;
   String? unit;
   String? recipeId;
   Ingredient({
@@ -18,7 +18,7 @@ class Ingredient {
   Ingredient copyWith({
     String? id,
     String? name,
-    int? amount,
+    String? amount,
     String? unit,
     String? recipeId,
   }) {
@@ -45,7 +45,7 @@ class Ingredient {
     return Ingredient(
       id: map['id'] as String,
       name: map['name'] as String,
-      amount: map['amount'] != null ? map['amount'] as int : null,
+      amount: map['amount'] != null ? map['amount'] as String : null,
       unit: map['unit'] != null ? map['unit'] as String : null,
       recipeId: map['recipeId'] != null ? map['recipeId'] as String : null,
     );

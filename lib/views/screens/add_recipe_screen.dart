@@ -162,8 +162,8 @@ class _AddRecipeState extends State<AddRecipeScreen> {
   }
 
   void _showIngredientAmountDialog(Ingredient ingredient,
-      Function(Ingredient, int, String) onIngredientAdded) {
-    int amount = 0;
+      Function(Ingredient, String, String) onIngredientAdded) {
+    String amount = '';
     String unit = '';
 
     showDialog(
@@ -180,9 +180,11 @@ class _AddRecipeState extends State<AddRecipeScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 decoration: const InputDecoration(labelText: 'Amount'),
                 onChanged: (value) {
-                  amount = int.parse(value);
+                  amount = value;
                 },
               ),
               TextField(

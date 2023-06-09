@@ -5,6 +5,7 @@ import 'package:gogoos_app/models/recipe.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
+import '../widgets/detail_recipe_description.dart';
 import '../widgets/full_screen_image.dart';
 import '../widgets/ingredient_tile.dart';
 import '../widgets/review_tile.dart';
@@ -243,15 +244,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
                 // Recipe Description
                 Container(
                   margin: const EdgeInsets.only(top: 5),
-                  child: Text(
-                    widget.data.description,
-                    maxLines: 2,
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.9),
-                      fontSize: 14,
-                    ),
+                  child: RecipeDescription(
+                    description: widget.data.description,
                   ),
-                )
+                ),
               ],
             ),
           ),
