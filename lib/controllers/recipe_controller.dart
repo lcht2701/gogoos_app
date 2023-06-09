@@ -58,7 +58,7 @@ class RecipeController {
       for (var i in ingredientSnapshot.docs) {
         String iid = i.get('id');
         String iname = i.get('name');
-        int iamount = i.get('amount');
+        String iamount = i.get('amount');
         String iunit = i.get('unit');
         String irecipeId = i.get('recipeId');
 
