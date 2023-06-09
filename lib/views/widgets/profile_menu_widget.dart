@@ -8,10 +8,12 @@ class ProfileMenuWidget extends StatelessWidget {
     required this.onPress,
     this.endIcon = true,
     this.textColor,
+    this.iconColor,
   }) : super(key: key);
 
   final String title;
   final IconData icon;
+  final Color? iconColor;
   final VoidCallback onPress;
   final bool endIcon;
   final Color? textColor;
@@ -24,9 +26,12 @@ class ProfileMenuWidget extends StatelessWidget {
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(90),
+            borderRadius: BorderRadius.circular(90),
+            color: Colors.grey[700]!.withOpacity(0.2)),
+        child: Icon(
+          icon,
+          color: iconColor,
         ),
-        child: Icon(icon),
       ),
       title: Text(title,
           style:

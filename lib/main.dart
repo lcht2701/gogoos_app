@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:gogoos_app/views/screens/home_screen.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -21,6 +22,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/home': (context) => const HomeScreen(),
+      },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Lato',

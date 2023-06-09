@@ -71,7 +71,7 @@ class TopRecipeCard extends StatelessWidget {
                       // Recipe Info
                       Expanded(
                         child: Container(
-                          margin: const EdgeInsets.only(left: 5),
+                          margin: const EdgeInsets.only(left: 10),
                           padding: const EdgeInsets.only(top: 10, bottom: 10),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,

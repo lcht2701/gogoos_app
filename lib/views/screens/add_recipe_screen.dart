@@ -8,6 +8,7 @@ import 'package:gogoos_app/controllers/recipe_controller.dart';
 import '../../models/ingredient.dart';
 import '../../models/recipe.dart';
 import '../../models/tutorial.dart';
+import '../utils/app_color.dart';
 import '../widgets/add_recipe_text_field.dart';
 
 class AddRecipeScreen extends StatefulWidget {
@@ -35,6 +36,7 @@ class _AddRecipeState extends State<AddRecipeScreen> {
   final TextEditingController _caloriesController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -49,30 +51,111 @@ class _AddRecipeState extends State<AddRecipeScreen> {
     });
   }
 
-  // Function to show modal bottom sheet for selecting ingredients
-  void _showIngredientModal(List<Ingredient> availableIngredients,
-      Function(Ingredient) onIngredientSelected) async {
+  void _showIngredientModal(
+    List<Ingredient> availableIngredients,
+    Function(Ingredient) onIngredientSelected,
+  ) async {
+    List<Ingredient> filteredIngredients = List.from(availableIngredients);
+
     final selectedIngredient = await showModalBottomSheet<Ingredient>(
       context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
       builder: (BuildContext context) {
-        return SizedBox(
-          height: MediaQuery.of(context).size.height * 0.5,
-          child: ListView.builder(
-            itemCount: availableIngredients.length,
-            itemBuilder: (BuildContext context, int index) {
-              final ingredient = availableIngredients[index];
-              return ListTile(
-                title: Text(ingredient.name),
-                onTap: () {
-                  Navigator.pop(context, ingredient);
-                },
-              );
-            },
-          ),
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return DraggableScrollableSheet(
+              expand: false,
+              initialChildSize: 0.7,
+              minChildSize: 0.4,
+              maxChildSize: 0.9,
+              builder:
+                  (BuildContext context, ScrollController scrollController) {
+                return SingleChildScrollView(
+                  controller: scrollController,
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    alignment: Alignment.topCenter,
+                    children: [
+                      Positioned(
+                        top: 10,
+                        child: Container(
+                          height: 4,
+                          width: 70,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(
+                                top: 30, bottom: 10, left: 20, right: 20),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey,
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: TextField(
+                              controller: _searchController,
+                              cursorColor: AppColor.darkColor,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                prefixIcon: Icon(
+                                  Icons.search,
+                                  color: Colors.grey,
+                                  size: 24,
+                                ),
+                                hintText: 'Search Recipe',
+                                hintStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              onChanged: (searchTerm) {
+                                setState(() {
+                                  filteredIngredients = availableIngredients
+                                      .where((ingredient) => ingredient.name
+                                          .toLowerCase()
+                                          .contains(searchTerm.toLowerCase()))
+                                      .toList();
+                                });
+                              },
+                            ),
+                          ),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: filteredIngredients.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final ingredient = filteredIngredients[index];
+                              return ListTile(
+                                title: Text(ingredient.name),
+                                onTap: () {
+                                  Navigator.pop(context, ingredient);
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          },
         );
       },
     );
-
     if (selectedIngredient != null) {
       onIngredientSelected(selectedIngredient);
     }
@@ -87,6 +170,11 @@ class _AddRecipeState extends State<AddRecipeScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(15),
+            ),
+          ),
           title: Text('Add ${ingredient.name}'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -111,13 +199,13 @@ class _AddRecipeState extends State<AddRecipeScreen> {
                 onIngredientAdded(ingredient, amount, unit);
                 Navigator.pop(context);
               },
-              child: Text('Add'),
+              child: const Text('Add'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
           ],
         );
@@ -134,6 +222,11 @@ class _AddRecipeState extends State<AddRecipeScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Add Tutorial Step'),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(15),
+            ),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -296,33 +389,36 @@ class _AddRecipeState extends State<AddRecipeScreen> {
             ),
             const SizedBox(height: 20),
             //Add Ingredients
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Ingredients',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                IconButton(
-                  onPressed: () {
-                    _showIngredientModal(availableIngredients,
-                        (selectedIngredient) {
-                      _showIngredientAmountDialog(selectedIngredient,
-                          (ingredient, amount, unit) {
-                        setState(() {
-                          final ingredientToAdd = Ingredient(
-                            id: ingredient.id,
-                            name: ingredient.name,
-                            amount: amount,
-                            unit: unit,
-                          );
-                          _ingredients.add(ingredientToAdd);
+            Container(
+              padding: const EdgeInsets.only(left: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Ingredients',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  IconButton(
+                    onPressed: () {
+                      _showIngredientModal(availableIngredients,
+                          (selectedIngredient) {
+                        _showIngredientAmountDialog(selectedIngredient,
+                            (ingredient, amount, unit) {
+                          setState(() {
+                            final ingredientToAdd = Ingredient(
+                              id: ingredient.id,
+                              name: ingredient.name,
+                              amount: amount,
+                              unit: unit,
+                            );
+                            _ingredients.add(ingredientToAdd);
+                          });
                         });
                       });
-                    });
-                  },
-                  icon: const Icon(LineAwesomeIcons.plus_circle),
-                ),
-              ],
+                    },
+                    icon: const Icon(LineAwesomeIcons.plus_circle),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 8),
             //Show selected ingredients list
@@ -344,23 +440,26 @@ class _AddRecipeState extends State<AddRecipeScreen> {
               }).toList(),
             ),
             //Add Step
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Cooking Tutorials',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                IconButton(
-                  onPressed: () {
-                    _showTutorialDialog((tutorial) {
-                      setState(() {
-                        _tutorials.add(tutorial);
+            Container(
+              padding: const EdgeInsets.only(left: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Cooking Tutorials',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  IconButton(
+                    onPressed: () {
+                      _showTutorialDialog((tutorial) {
+                        setState(() {
+                          _tutorials.add(tutorial);
+                        });
                       });
-                    });
-                  },
-                  icon: const Icon(LineAwesomeIcons.plus_circle),
-                ),
-              ],
+                    },
+                    icon: const Icon(LineAwesomeIcons.plus_circle),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 8),
             //Show Tutorials
@@ -408,8 +507,7 @@ class _AddRecipeState extends State<AddRecipeScreen> {
                       actions: [
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context)
-                                .popUntil((route) => route.isFirst);
+                            Navigator.pushNamed(context, '/home');
                           },
                           child: const Text('OK'),
                         ),
