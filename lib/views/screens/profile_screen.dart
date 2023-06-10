@@ -77,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
+        centerTitle: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text(
@@ -85,9 +85,81 @@ class _ProfileScreenState extends State<ProfileScreen> {
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
-            fontSize: 20,
+            fontSize: 24,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/add_recipe');
+            },
+            icon: const Icon(
+              Icons.add_box_outlined,
+              color: Colors.black,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              showModalBottomSheet(
+                  context: context,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20))),
+                  builder: (BuildContext context) {
+                    return Stack(
+                      clipBehavior: Clip.none,
+                      alignment: Alignment.topCenter,
+                      children: [
+                        Positioned(
+                          top: 10,
+                          child: Container(
+                            height: 4,
+                            width: 70,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14),
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 10),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ProfileMenuWidget(
+                                title: "Edit Profile",
+                                icon: LineAwesomeIcons.user_cog,
+                                iconColor: Colors.black,
+                                textColor: Colors.black,
+                                endIcon: false,
+                                onPress: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              ProfileMenuWidget(
+                                title: "Logout",
+                                icon: LineAwesomeIcons.alternate_sign_out,
+                                iconColor: Colors.red,
+                                textColor: Colors.red,
+                                endIcon: false,
+                                onPress: () {
+                                  AuthController().signOut();
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  });
+            },
+            icon: const Icon(
+              LineAwesomeIcons.bars,
+              color: Colors.black,
+            ),
+          ),
+        ],
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
@@ -107,45 +179,117 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     const SizedBox(height: 20),
 
-                    /// -- IMAGE
-                    Stack(
-                      children: [
-                        SizedBox(
-                          width: 120,
-                          height: 120,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: Image(
-                              image: NetworkImage(userData['profileImg']),
-                              fit: BoxFit.cover,
-                            ),
+                    /// -- USER PROFILE
+                    Container(
+                      padding: const EdgeInsets.only(left: 10, right: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          //Profile Image + Numbers
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              //Images
+                              Stack(
+                                children: [
+                                  SizedBox(
+                                    width: 100,
+                                    height: 100,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: Image(
+                                        image: NetworkImage(
+                                            userData['profileImg']),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 0,
+                                    right: 0,
+                                    child: Container(
+                                      width: 35,
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        color: AppColor.orangeColor,
+                                      ),
+                                      child: IconButton(
+                                        color: Colors.white,
+                                        iconSize: 20,
+                                        icon: const Icon(Icons.add),
+                                        onPressed: () {
+                                          UserController()
+                                              .uploadProfileImg(); // Call the function without assigning its result
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              //Numbers
+                              const Row(
+                                children: [
+                                  Column(
+                                    children: [
+                                      Text(
+                                        '8',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      Text('Recipes'),
+                                    ],
+                                  ),
+                                  SizedBox(width: 15),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        '8',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      Text('Followers'),
+                                    ],
+                                  ),
+                                  SizedBox(width: 15),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        '8',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      Text('Followings'),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Container(
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: AppColor.orangeColor,
+                          //User Name
+                          Container(
+                            padding: const EdgeInsets.only(top: 15, left: 5),
+                            child: Text(
+                              userData['name'],
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
-                            child: IconButton(
-                              color: Colors.white,
-                              iconSize: 20,
-                              icon:
-                                  const Icon(LineAwesomeIcons.alternate_pencil),
-                              onPressed: () {
-                                UserController()
-                                    .uploadProfileImg(); // Call the function without assigning its result
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
+                          )
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 35),
+
+                    /// -- MY PROFILE
                     Container(
                       margin: const EdgeInsets.only(
                         left: 16,
@@ -179,16 +323,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onPressed: () => editField('phoneNumber'),
                     ),
                     const SizedBox(height: 20),
-                    ProfileMenuWidget(
-                      title: "Logout",
-                      icon: LineAwesomeIcons.alternate_sign_out,
-                      iconColor: Colors.red,
-                      textColor: Colors.red,
-                      endIcon: false,
-                      onPress: () {
-                        AuthController().signOut();
-                      },
-                    ),
                   ],
                 ),
               ),

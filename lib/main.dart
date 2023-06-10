@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:gogoos_app/views/screens/add_recipe_screen.dart';
 import 'package:gogoos_app/views/screens/home_screen.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
 
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         '/home': (context) => const HomeScreen(),
+        '/add_recipe': (context) => const AddRecipeScreen(),
       },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

@@ -509,7 +509,8 @@ class _AddRecipeState extends State<AddRecipeScreen> {
                       actions: [
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/home');
+                            Navigator.popUntil(
+                                context, ModalRoute.withName('/home'));
                           },
                           child: const Text('OK'),
                         ),
