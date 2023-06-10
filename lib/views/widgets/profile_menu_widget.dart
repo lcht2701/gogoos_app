@@ -22,20 +22,18 @@ class ProfileMenuWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: onPress,
-      leading: Container(
+      leading: SizedBox(
         width: 40,
         height: 40,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(90),
-            color: Colors.grey[700]!.withOpacity(0.2)),
         child: Icon(
           icon,
           color: iconColor,
         ),
       ),
-      title: Text(title,
-          style:
-              Theme.of(context).textTheme.bodyLarge?.apply(color: textColor)),
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.bodyLarge?.apply(color: textColor),
+      ),
       trailing: endIcon
           ? Container(
               width: 30,
