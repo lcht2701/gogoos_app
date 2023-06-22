@@ -23,8 +23,8 @@ class RecipeController {
     QuerySnapshot<Object?> ingredientSnapshot =
         await _ingredientsCollection.get();
     for (var item in ingredientSnapshot.docs) {
-      String id = item.get('id');
-      String name = item.get('name');
+      String id = item.get('id') as String;
+      String name = item.get('name') as String;
 
       Ingredient ingredient = Ingredient(
         id: id,
@@ -192,11 +192,12 @@ class RecipeController {
           docRecipe.collection('ingredients');
       for (Ingredient ingredient in recipe.ingredients!) {
         // Create a new document in the Ingredients sub-collection
-        DocumentReference ingredientDoc = ingredientCollection.doc();
+        DocumentReference ingredientDoc =
+            ingredientCollection.doc(ingredient.id);
 
         // Set the data for the ingredient document
         await ingredientDoc.set({
-          'id': ingredientDoc.id,
+          'id': ingredient.id,
           'name': ingredient.name,
           'amount': ingredient.amount,
           'unit': ingredient.unit,
@@ -249,5 +250,43 @@ class RecipeController {
 
     String imgUrl = await ref.getDownloadURL();
     return imgUrl;
+  }
+
+  Future<List<Recipe>> getRecipesByIngredients(
+      List<Ingredient> selectedIngredients) async {
+    // Get full recipe list
+    List<Recipe> recipesList = await getAllRecipes();
+
+    List<Recipe> filteredRecipes = [];
+
+    // Iterate through the recipe list
+    for (Recipe recipe in recipesList) {
+      bool containsAllIngredients = true;
+
+      // Check if the recipe contains all the selected ingredient IDs
+      for (Ingredient selectedIngredient in selectedIngredients) {
+        bool containsSelectedIngredient = false;
+
+        // Check if the recipe contains the selected ingredient ID
+        for (Ingredient recipeIngredient in recipe.ingredients!) {
+          if (recipeIngredient.id == selectedIngredient.id) {
+            containsSelectedIngredient = true;
+            break;
+          }
+        }
+
+        // If the recipe does not contain the selected ingredient, break the loop
+        if (!containsSelectedIngredient) {
+          containsAllIngredients = false;
+          break;
+        }
+      }
+
+      if (containsAllIngredients) {
+        filteredRecipes.add(recipe);
+      }
+    }
+
+    return filteredRecipes;
   }
 }

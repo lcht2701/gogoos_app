@@ -7,7 +7,7 @@ import '../screens/detail_recipe_screen.dart';
 import '../utils/app_color.dart';
 
 class AllRecipesTile extends StatelessWidget {
-  const AllRecipesTile({super.key});
+  const AllRecipesTile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

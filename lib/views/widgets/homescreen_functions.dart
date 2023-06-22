@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
+import '../screens/fridge_cleaning_screen.dart';
+
 class HomeScreenFunctions extends StatefulWidget {
   const HomeScreenFunctions({super.key});
 
@@ -20,9 +22,15 @@ class _HomeScreenFunctionsState extends State<HomeScreenFunctions> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           IconButton(
-            icon: const Icon(LineAwesomeIcons.book),
+            icon: const Icon(LineAwesomeIcons.utensils),
             iconSize: 36,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const FridgeCleaningScreen()),
+              );
+            },
           ),
           IconButton(
             icon: const Icon(LineAwesomeIcons.book),
