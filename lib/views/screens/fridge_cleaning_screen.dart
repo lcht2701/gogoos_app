@@ -42,7 +42,13 @@ class _FridgeCleaningScreenState extends State<FridgeCleaningScreen> {
     String? userRole = await UserController().getUserRole();
     if (userRole != null && mounted) {
       setState(() {
-        _userRole = (userRole == 'Free' ? UserRole.Free : UserRole.Premium);
+        if (userRole == 'Free') {
+          _userRole = UserRole.Free;
+        } else if (userRole == 'Premium') {
+          _userRole = UserRole.Premium;
+        } else {
+          _userRole = UserRole.Admin;
+        }
       });
     }
   }
@@ -59,8 +65,7 @@ class _FridgeCleaningScreenState extends State<FridgeCleaningScreen> {
 
   void _selectIngredient(Ingredient ingredient) {
     if (_userRole == UserRole.Free && _selectedIngredients.length >= 2) {
-      // User is a free user and has already selected 2 ingredients
-      _showMessage('Free users can only select 2 ingredients.');
+      _showMessage('Free users can only select 2 ingre2dients.');
       return;
     }
 
