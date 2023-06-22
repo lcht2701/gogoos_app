@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gogoos_app/controllers/user_controller.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -19,12 +17,14 @@ class FridgeCleaningScreen extends StatefulWidget {
 
 class _FridgeCleaningScreenState extends State<FridgeCleaningScreen> {
   final TextEditingController _searchController = TextEditingController();
+
+  late UserRole _userRole;
+  bool showIngredientsList = false;
+
   List<Ingredient> _ingredientList = [];
   List<Ingredient> _filteredIngredients = [];
   final List<Ingredient> _selectedIngredients = [];
-  List<Recipe> _recipes = [];
-  late UserRole _userRole;
-  bool showIngredientsList = false;
+  List<Recipe> _filteredRecipes = [];
 
   @override
   void initState() {
@@ -49,14 +49,9 @@ class _FridgeCleaningScreenState extends State<FridgeCleaningScreen> {
 
   void _searchIngredients(String searchQuery) {
     RecipeController recipeController = RecipeController();
-    if (searchQuery.isEmpty || searchQuery == "") {
-      _filteredIngredients = [];
-    } else {
-      _filteredIngredients = recipeController.searchIngredients(
-        _ingredientList,
-        searchQuery,
-      );
-    }
+    _filteredIngredients =
+        recipeController.searchIngredients(_ingredientList, searchQuery);
+
     setState(() {
       showIngredientsList = true;
     });
@@ -92,7 +87,7 @@ class _FridgeCleaningScreenState extends State<FridgeCleaningScreen> {
         .getRecipesByIngredients(_selectedIngredients)
         .then((recipes) {
       setState(() {
-        _recipes = recipes;
+        _filteredRecipes = recipes;
       });
     });
   }
@@ -159,49 +154,50 @@ class _FridgeCleaningScreenState extends State<FridgeCleaningScreen> {
             ),
 
             // Ingredient List
-            Expanded(
-              child: showIngredientsList
-                  ? ListView.builder(
-                      itemCount: _filteredIngredients.length,
-                      itemBuilder: (context, index) {
-                        Ingredient ingredient = _filteredIngredients[index];
-                        return ListTile(
-                          title: Text(ingredient.name),
-                          onTap: () => _selectIngredient(ingredient),
-                        );
-                      },
-                    )
-                  : Container(
-                      height: 0,
+            showIngredientsList
+                ? Expanded(
+                    child: SizedBox(
+                      child: ListView.builder(
+                        itemCount: _filteredIngredients.length,
+                        itemBuilder: (context, index) {
+                          Ingredient ingredient = _filteredIngredients[index];
+                          return ListTile(
+                            title: Text(ingredient.name),
+                            onTap: () => _selectIngredient(ingredient),
+                          );
+                        },
+                      ),
                     ),
-            ),
+                  )
+                : Container(),
 
             // Selected Ingredients
-            Container(
-              margin: const EdgeInsets.only(top: 10),
-              height: 40, // Specify the desired height of the list view
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: _selectedIngredients.length,
-                itemBuilder: (context, index) {
-                  Ingredient ingredient = _selectedIngredients[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: InputChip(
-                      label: Text(ingredient.name),
-                      deleteIcon: const Icon(
-                        LineAwesomeIcons.times,
-                        size: 14,
-                      ),
-                      onDeleted: () => _removeIngredient(ingredient),
+            _selectedIngredients.isNotEmpty
+                ? SizedBox(
+                    height: 40,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _selectedIngredients.length,
+                      itemBuilder: (context, index) {
+                        Ingredient ingredient = _selectedIngredients[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: InputChip(
+                            label: Text(ingredient.name),
+                            deleteIcon: const Icon(
+                              LineAwesomeIcons.times,
+                              size: 14,
+                            ),
+                            onDeleted: () => _removeIngredient(ingredient),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
-            ),
+                  )
+                : Container(),
 
             // Recipe List
-            FridgeCleaningRecipeTile(recipes: _recipes),
+            FridgeCleaningRecipeTile(recipes: _filteredRecipes),
           ],
         ),
       ),
