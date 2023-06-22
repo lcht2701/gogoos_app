@@ -1,5 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+
+import 'package:gogoos_app/models/role.dart';
 
 class AppUser {
   final String id;
@@ -8,6 +9,8 @@ class AppUser {
   final String email;
   final String profileImg;
   final String phoneNumber;
+  final UserRole role;
+
   AppUser({
     required this.id,
     required this.username,
@@ -15,6 +18,7 @@ class AppUser {
     required this.email,
     required this.profileImg,
     required this.phoneNumber,
+    required this.role,
   });
 
   AppUser copyWith({
@@ -24,6 +28,7 @@ class AppUser {
     String? email,
     String? profileImg,
     String? phoneNumber,
+    UserRole? role,
   }) {
     return AppUser(
       id: id ?? this.id,
@@ -32,6 +37,7 @@ class AppUser {
       email: email ?? this.email,
       profileImg: profileImg ?? this.profileImg,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      role: role ?? this.role,
     );
   }
 
@@ -43,6 +49,7 @@ class AppUser {
       'email': email,
       'profileImg': profileImg,
       'phoneNumber': phoneNumber,
+      'role': role.toString().split('.').last, // Store role as string
     };
   }
 
@@ -54,6 +61,9 @@ class AppUser {
       email: map['email'] as String,
       profileImg: map['profileImg'] as String,
       phoneNumber: map['phoneNumber'] as String,
+      role: UserRole.values.firstWhere(
+        (role) => role.toString().split('.').last == map['role'],
+      ),
     );
   }
 
@@ -64,7 +74,7 @@ class AppUser {
 
   @override
   String toString() {
-    return 'AppUser(id: $id, username: $username, name: $name, email: $email, profileImg: $profileImg, phoneNumber: $phoneNumber)';
+    return 'AppUser(id: $id, username: $username, name: $name, email: $email, profileImg: $profileImg, phoneNumber: $phoneNumber, role: $role)';
   }
 
   @override
@@ -76,7 +86,8 @@ class AppUser {
         other.name == name &&
         other.email == email &&
         other.profileImg == profileImg &&
-        other.phoneNumber == phoneNumber;
+        other.phoneNumber == phoneNumber &&
+        other.role == role;
   }
 
   @override
@@ -86,6 +97,7 @@ class AppUser {
         name.hashCode ^
         email.hashCode ^
         profileImg.hashCode ^
-        phoneNumber.hashCode;
+        phoneNumber.hashCode ^
+        role.hashCode;
   }
 }

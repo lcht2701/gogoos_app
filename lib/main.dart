@@ -8,12 +8,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:gogoos_app/views/auth/auth_screen.dart';
 
+import 'models/role.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   //remove splash screen
   await Future.delayed(const Duration(seconds: 3));
   FlutterNativeSplash.remove();
+  initializeUserRolesCollection();
   runApp(const MyApp());
 }
 
