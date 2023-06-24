@@ -65,7 +65,7 @@ class _FridgeCleaningScreenState extends State<FridgeCleaningScreen> {
 
   void _selectIngredient(Ingredient ingredient) {
     if (_userRole == UserRole.Free && _selectedIngredients.length >= 2) {
-      _showMessage('Free users can only select 2 ingre2dients.');
+      _showMessage('You can only select 2 ingredients.');
       return;
     }
 

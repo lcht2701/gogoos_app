@@ -223,7 +223,7 @@ class _AddRecipeState extends State<AddRecipeScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Add Tutorial Step'),
+          title: const Text('Add Tutorial Step'),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(15),
@@ -254,13 +254,13 @@ class _AddRecipeState extends State<AddRecipeScreen> {
                 onTutorialAdded(tutorial);
                 Navigator.pop(context);
               },
-              child: Text('Add'),
+              child: const Text('Add'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
           ],
         );
@@ -537,7 +537,7 @@ class _AddRecipeState extends State<AddRecipeScreen> {
                         actions: [
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.of(context).pop();
+                              Navigator.pushNamed(context, '/home');
                             },
                             child: const Text('OK'),
                           ),
