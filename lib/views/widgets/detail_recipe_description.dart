@@ -42,14 +42,12 @@ class _RecipeDescriptionState extends State<RecipeDescription> {
           isExpanded = !isExpanded;
         });
       },
-      child: Container(
-        child: RichText(
-          text: textSpan,
-          maxLines: isExpanded ? null : maxLines,
-          overflow: isTextOverflowed && !isExpanded
-              ? TextOverflow.ellipsis
-              : TextOverflow.visible,
-        ),
+      child: RichText(
+        text: textSpan,
+        maxLines: isExpanded ? null : maxLines,
+        overflow: isTextOverflowed && !isExpanded
+            ? TextOverflow.ellipsis
+            : TextOverflow.visible,
       ),
     );
   }

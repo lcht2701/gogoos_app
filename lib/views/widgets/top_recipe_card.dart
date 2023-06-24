@@ -8,6 +8,8 @@ import '../screens/detail_recipe_screen.dart';
 import '../utils/app_color.dart';
 
 class TopRecipeCard extends StatelessWidget {
+  const TopRecipeCard({super.key});
+
   @override
   Widget build(BuildContext context) {
     Future<List<Recipe>> topRecipesFuture = RecipeController().getTopRecipes();

@@ -26,7 +26,7 @@ class FullScreenImage extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         alignment: Alignment.center,
         // Image Wrapper
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width,
           // Image Widget
           child: Image(image: NetworkImage(image)),

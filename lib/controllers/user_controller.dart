@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:gogoos_app/models/role.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -51,7 +52,7 @@ class UserController {
       final User? user = _auth.currentUser;
       return user;
     } catch (e) {
-      print('Error getting current user: $e');
+      debugPrint('Error getting current user: $e');
       return null;
     }
   }
@@ -67,7 +68,7 @@ class UserController {
         return userRole;
       }
     } catch (e) {
-      print('Error getting user role: $e');
+      debugPrint('Error getting user role: $e');
     }
     return null;
   }

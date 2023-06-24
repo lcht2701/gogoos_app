@@ -43,6 +43,7 @@ dependencies:
   line_awesome_flutter: ^2.0.0
   flutter_launcher_icons: ^0.13.1
   shortid: ^0.1.2
+  google_mobile_ads: ^3.0.0
 
 flutter_launcher_icons:
   android: "launcher_icon"

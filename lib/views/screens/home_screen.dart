@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gogoos_app/controllers/admob_controller.dart';
 import 'package:gogoos_app/views/screens/profile_screen.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:molten_navigationbar_flutter/molten_navigationbar_flutter.dart';
 
+import '../../controllers/user_controller.dart';
+import '../../models/role.dart';
 import '../widgets/all_recipe_tile.dart';
 import '../widgets/homescreen_functions.dart';
 import '../widgets/homescreen_header.dart';
@@ -19,13 +23,34 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  BannerAd? _banner;
+  InterstitialAd? _interstitialAd;
   int _selectedIndex = 0;
+  UserRole? _userRole;
   late PageController _pageController;
 
   @override
   void initState() {
     super.initState();
+    _createBannerAd();
+    _createInterstitialAd();
+    _getCurrentUserRole();
     _pageController = PageController();
+  }
+
+  void _getCurrentUserRole() async {
+    String? userRole = await UserController().getUserRole();
+    if (userRole != null && mounted) {
+      setState(() {
+        if (userRole == 'Free') {
+          _userRole = UserRole.Free;
+        } else if (userRole == 'Premium') {
+          _userRole = UserRole.Premium;
+        } else {
+          _userRole = UserRole.Admin;
+        }
+      });
+    }
   }
 
   @override
@@ -36,6 +61,45 @@ class _HomeScreenState extends State<HomeScreen> {
 
   dynamic selected;
   PageController controller = PageController();
+
+  void _createBannerAd() {
+    _banner = BannerAd(
+      size: AdSize.fullBanner,
+      adUnitId: AdMobController.bannerAdUnitId!,
+      listener: AdMobController.bannerAdListener,
+      request: const AdRequest(),
+    )..load();
+  }
+
+  void _createInterstitialAd() {
+    InterstitialAd.load(
+      adUnitId: AdMobController.interstitialAdUnitId!,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          _interstitialAd = ad;
+        },
+        onAdFailedToLoad: (LoadAdError error) => _interstitialAd = null,
+      ),
+    );
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd != null && _userRole == UserRole.Free) {
+      _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+        onAdDismissedFullScreenContent: (ad) {
+          ad.dispose();
+          _createInterstitialAd();
+        },
+        onAdFailedToShowFullScreenContent: (ad, error) {
+          ad.dispose();
+          _createInterstitialAd();
+        },
+      );
+
+      _interstitialAd!.show();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +125,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   const HomeScreenHeader(),
                   const SizedBox(height: 14),
                   const HomeScreenFunctions(),
+                  _banner != null &&
+                          _userRole != null &&
+                          _userRole == UserRole.Free
+                      ? Container(
+                          margin: const EdgeInsets.only(top: 10),
+                          height: _banner?.size.height.toDouble(),
+                          width: MediaQuery.of(context).size.width,
+                          child: AdWidget(ad: _banner!),
+                        )
+                      : Container(),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
                     child: Row(
@@ -75,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: _showInterstitialAd,
                           child: Text(
                             'See All',
                             style: TextStyle(
@@ -89,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  SizedBox(
+                  const SizedBox(
                     height: 190,
                     child: TopRecipeCard(),
                   ),
@@ -106,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: _showInterstitialAd,
                         child: Text(
                           'See All',
                           style: TextStyle(

@@ -5,6 +5,7 @@ import 'package:gogoos_app/views/screens/home_screen.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'firebase_options.dart';
 import 'package:gogoos_app/views/auth/auth_screen.dart';
 
@@ -12,6 +13,7 @@ import 'models/role.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   //remove splash screen
   await Future.delayed(const Duration(seconds: 3));
