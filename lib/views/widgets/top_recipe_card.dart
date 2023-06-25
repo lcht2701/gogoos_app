@@ -87,7 +87,6 @@ class TopRecipeCard extends StatelessWidget {
                                   maxLines: 1,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w600,
-                                    fontFamily: 'inter',
                                   ),
                                 ),
                               ),

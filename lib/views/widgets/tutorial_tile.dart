@@ -22,10 +22,7 @@ class TutorialTile extends StatelessWidget {
           Text(
             data.step,
             style: const TextStyle(
-                color: Colors.black,
-                fontFamily: 'inter',
-                fontSize: 16,
-                fontWeight: FontWeight.w600),
+                color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
           ),
           // ignore: unnecessary_null_comparison
           (data.description != null)

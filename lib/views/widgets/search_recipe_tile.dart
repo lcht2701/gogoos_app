@@ -69,8 +69,8 @@ class SearchRecipeTile extends StatelessWidget {
                             // data.title,
                             recipe.title,
                             style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'inter'),
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                         // Recipe Calories and Time

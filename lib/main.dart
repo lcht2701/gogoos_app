@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const HomeScreen(),
         '/add_recipe': (context) => const AddRecipeScreen(),
         '/edit_profile': (context) => const EditProfileScreen(),
+        '/auth': (context) => const AuthScreen(),
       },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

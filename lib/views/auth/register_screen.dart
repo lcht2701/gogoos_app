@@ -47,9 +47,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
       if (context.mounted) {
         Navigator.pop(context);
+        Navigator.pushReplacementNamed(context, '/auth');
       }
     } on FirebaseAuthException catch (e) {
-      //pop loading circle
       Navigator.pop(context);
       //display error message
       displayMessage(e.code);
@@ -98,10 +98,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: const Text(
                         'Sign Up',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'inter'),
+                          color: Colors.white,
+                          fontSize: 30,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                     // Form
@@ -135,7 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         icon: const Icon(LineAwesomeIcons.key)),
                   ],
                 ),
-                Mybutton(
+                MyFilledbutton(
                   onTap: signUp,
                   text: 'Sign Up',
                 )

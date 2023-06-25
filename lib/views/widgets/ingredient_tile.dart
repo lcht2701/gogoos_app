@@ -31,7 +31,6 @@ class IngredientTile extends StatelessWidget {
               style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
-                  fontFamily: 'inter',
                   color: Colors.grey[600]),
             ),
           ),

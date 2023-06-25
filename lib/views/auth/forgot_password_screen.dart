@@ -49,10 +49,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       child: const Text(
                         'Forgot Password',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'inter'),
+                          color: Colors.white,
+                          fontSize: 30,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                     // Form
@@ -65,7 +65,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         icon: const Icon(LineAwesomeIcons.envelope)),
                   ],
                 ),
-                Mybutton(
+                MyFilledbutton(
                   text: 'Submit',
                   onTap: () {},
                 )

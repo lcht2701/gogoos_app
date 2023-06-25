@@ -483,7 +483,7 @@ class _AddRecipeState extends State<AddRecipeScreen> {
             ),
             const SizedBox(height: 16),
             //Save Recipe
-            Mybutton(
+            MyFilledbutton(
               onTap: () {
                 _title = _titleController.value.text;
                 _calories = int.parse(_caloriesController.value.text);
