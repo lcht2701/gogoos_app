@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
+import '../screens/book_selling_screen.dart';
 import '../screens/fridge_cleaning_screen.dart';
 
 class HorizontalButtonList extends StatefulWidget {
@@ -35,7 +36,7 @@ class _HorizontalButtonListState extends State<HorizontalButtonList> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const FridgeCleaningScreen()),
+                  builder: (context) => const BookSellingScreen()),
             );
           },
         ),

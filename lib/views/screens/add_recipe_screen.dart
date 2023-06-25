@@ -44,6 +44,18 @@ class _AddRecipeState extends State<AddRecipeScreen> {
     _fetchAvailableIngredients();
   }
 
+  @override
+  void dispose() {
+    // Dispose the text editing controllers
+    _titleController.dispose();
+    _caloriesController.dispose();
+    _timeController.dispose();
+    _descriptionController.dispose();
+    _searchController.dispose();
+
+    super.dispose();
+  }
+
   Future<void> _fetchAvailableIngredients() async {
     final ingredients = await RecipeController().getAllIngredients();
     setState(() {
@@ -281,259 +293,227 @@ class _AddRecipeState extends State<AddRecipeScreen> {
   }
 
   @override
-  void dispose() {
-    // Dispose the text editing controllers
-    _titleController.dispose();
-    _caloriesController.dispose();
-    _timeController.dispose();
-    _descriptionController.dispose();
-
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: const Text(
-          'Add Recipe',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
+    return WillPopScope(
+      onWillPop: () async {
+        // Handle the back button press
+        Navigator.of(context).pushNamed('/home');
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: const Text(
+            'Add Recipe',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
           ),
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: ListView(
-          children: [
-            //Add Image
-            GestureDetector(
-              onTap: () async {
-                _photoUrl = await RecipeController().uploadRecipeImg();
-                setState(() {});
-              },
-              child: Container(
-                height: 180,
-                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
-                decoration: BoxDecoration(
-                  border: Border.all(width: 2, color: Colors.grey.shade400),
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.grey.shade300,
+        body: Padding(
+          padding: const EdgeInsets.all(20),
+          child: ListView(
+            children: [
+              //Add Image
+              GestureDetector(
+                onTap: () async {
+                  _photoUrl = await RecipeController().uploadRecipeImg();
+                  setState(() {});
+                },
+                child: Container(
+                  height: 180,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 2, color: Colors.grey.shade400),
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.grey.shade300,
+                  ),
+                  child: _photoUrl == null
+                      ? const Center(
+                          child: Icon(
+                            LineAwesomeIcons.plus_circle,
+                            color: Colors.black,
+                          ),
+                        )
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(
+                            _photoUrl!,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                 ),
-                child: _photoUrl == null
-                    ? const Center(
-                        child: Icon(
-                          LineAwesomeIcons.plus_circle,
-                          color: Colors.black,
-                        ),
-                      )
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.network(
-                          _photoUrl!,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
               ),
-            ),
-            //Title
-            AddRecipeTextField(
-              title: 'Title',
-              controller: _titleController,
-              inputType: TextInputType.text,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter a title';
-                }
-                return null;
-              },
-            ),
-            //Calories
-            AddRecipeTextField(
-              title: 'Calories',
-              controller: _caloriesController,
-              inputType: TextInputType.number,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter a title';
-                }
-                return null;
-              },
-            ),
-            //Time
-            AddRecipeTextField(
-              title: 'Time',
-              controller: _timeController,
-              inputType: TextInputType.number,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter a title';
-                }
-                return null;
-              },
-            ),
-            //Description
-            AddRecipeTextField(
-              title: 'Recipe Description',
-              controller: _descriptionController,
-              inputType: TextInputType.text,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter a title';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 20),
-            //Add Ingredients
-            Container(
-              padding: const EdgeInsets.only(left: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Ingredients',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  IconButton(
-                    onPressed: () {
-                      _showIngredientModal(availableIngredients,
-                          (selectedIngredient) {
-                        _showIngredientAmountDialog(selectedIngredient,
-                            (ingredient, amount, unit) {
-                          setState(() {
-                            final ingredientToAdd = Ingredient(
-                              id: ingredient.id,
-                              name: ingredient.name,
-                              amount: amount,
-                              unit: unit,
-                            );
-                            _ingredients.add(ingredientToAdd);
+              //Title
+              AddRecipeTextField(
+                title: 'Title',
+                controller: _titleController,
+                inputType: TextInputType.text,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter a title';
+                  }
+                  return null;
+                },
+              ),
+              //Calories
+              AddRecipeTextField(
+                title: 'Calories',
+                controller: _caloriesController,
+                inputType: TextInputType.number,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter a title';
+                  }
+                  return null;
+                },
+              ),
+              //Time
+              AddRecipeTextField(
+                title: 'Time',
+                controller: _timeController,
+                inputType: TextInputType.number,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter a title';
+                  }
+                  return null;
+                },
+              ),
+              //Description
+              AddRecipeTextField(
+                title: 'Recipe Description',
+                controller: _descriptionController,
+                inputType: TextInputType.text,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter a title';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20),
+              //Add Ingredients
+              Container(
+                padding: const EdgeInsets.only(left: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Ingredients',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    IconButton(
+                      onPressed: () {
+                        _showIngredientModal(availableIngredients,
+                            (selectedIngredient) {
+                          _showIngredientAmountDialog(selectedIngredient,
+                              (ingredient, amount, unit) {
+                            setState(() {
+                              final ingredientToAdd = Ingredient(
+                                id: ingredient.id,
+                                name: ingredient.name,
+                                amount: amount,
+                                unit: unit,
+                              );
+                              _ingredients.add(ingredientToAdd);
+                            });
                           });
                         });
-                      });
-                    },
-                    icon: const Icon(LineAwesomeIcons.plus_circle),
-                  ),
-                ],
+                      },
+                      icon: const Icon(LineAwesomeIcons.plus_circle),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            //Show selected ingredients list
-            Column(
-              children: _ingredients.asMap().entries.map((entry) {
-                final index = entry.key;
-                final ingredient = entry.value;
-                return ListTile(
-                  title: Text(ingredient.name),
-                  subtitle: Text(
-                      'Amount: ${ingredient.amount}, Unit: ${ingredient.unit}'),
-                  trailing: IconButton(
-                    onPressed: () {
-                      _deleteIngredient(index);
-                    },
-                    icon: const Icon(Icons.delete),
-                  ),
-                );
-              }).toList(),
-            ),
-            //Add Step
-            Container(
-              padding: const EdgeInsets.only(left: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Cooking Tutorials',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  IconButton(
-                    onPressed: () {
-                      _showTutorialDialog((tutorial) {
-                        setState(() {
-                          _tutorials.add(tutorial);
-                        });
-                      });
-                    },
-                    icon: const Icon(LineAwesomeIcons.plus_circle),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 8),
-            //Show Tutorials
-            Column(
-              children: _tutorials.asMap().entries.map((entry) {
-                final index = entry.key;
-                final tutorial = entry.value;
-                return ListTile(
-                  title: Text('Step ${tutorial.step}'),
-                  subtitle: Text(tutorial.description),
-                  trailing: IconButton(
-                    onPressed: () {
-                      _deleteTutorial(index);
-                    },
-                    icon: const Icon(Icons.delete),
-                  ),
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 16),
-            //Save Recipe
-            MyFilledbutton(
-              onTap: () {
-                _title = _titleController.value.text;
-                _calories = int.parse(_caloriesController.value.text);
-                _time = int.parse(_timeController.value.text);
-                _description = _descriptionController.value.text;
-                Recipe newRecipe = Recipe(
-                  id: '',
-                  title: _title,
-                  photoUrl: _photoUrl as String,
-                  calories: _calories,
-                  time: _time,
-                  description: _description,
-                  isTopRecipe: false,
-                  ingredients: _ingredients,
-                  tutorials: _tutorials,
-                );
-                RecipeController().addRecipe(newRecipe).then((_) {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('Success'),
-                      content: const Text('Recipe created successfully!'),
-                      actions: [
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.popUntil(
-                                context, ModalRoute.withName('/home'));
-                          },
-                          child: const Text('OK'),
-                        ),
-                      ],
+              const SizedBox(height: 8),
+              //Show selected ingredients list
+              Column(
+                children: _ingredients.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final ingredient = entry.value;
+                  return ListTile(
+                    title: Text(ingredient.name),
+                    subtitle: Text(
+                        'Amount: ${ingredient.amount}, Unit: ${ingredient.unit}'),
+                    trailing: IconButton(
+                      onPressed: () {
+                        _deleteIngredient(index);
+                      },
+                      icon: const Icon(Icons.delete),
                     ),
                   );
-                  // Clear input fields
-                  _titleController.clear();
-                  _caloriesController.clear();
-                  _timeController.clear();
-                  _descriptionController.clear();
-                  _ingredients.clear();
-                  _tutorials.clear();
-                  setState(() {
-                    _photoUrl = null;
-                  });
-                }).catchError(
-                  (error) {
+                }).toList(),
+              ),
+              //Add Step
+              Container(
+                padding: const EdgeInsets.only(left: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Cooking Tutorials',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    IconButton(
+                      onPressed: () {
+                        _showTutorialDialog((tutorial) {
+                          setState(() {
+                            _tutorials.add(tutorial);
+                          });
+                        });
+                      },
+                      icon: const Icon(LineAwesomeIcons.plus_circle),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+              //Show Tutorials
+              Column(
+                children: _tutorials.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final tutorial = entry.value;
+                  return ListTile(
+                    title: Text('Step ${tutorial.step}'),
+                    subtitle: Text(tutorial.description),
+                    trailing: IconButton(
+                      onPressed: () {
+                        _deleteTutorial(index);
+                      },
+                      icon: const Icon(Icons.delete),
+                    ),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 16),
+              //Save Recipe
+              MyFilledbutton(
+                onTap: () {
+                  _title = _titleController.value.text;
+                  _calories = int.parse(_caloriesController.value.text);
+                  _time = int.parse(_timeController.value.text);
+                  _description = _descriptionController.value.text;
+                  Recipe newRecipe = Recipe(
+                    id: '',
+                    title: _title,
+                    photoUrl: _photoUrl as String,
+                    calories: _calories,
+                    time: _time,
+                    description: _description,
+                    isTopRecipe: false,
+                    ingredients: _ingredients,
+                    tutorials: _tutorials,
+                  );
+                  RecipeController().addRecipe(newRecipe).then((_) {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
-                        title: const Text('Error'),
-                        content: Text('Failed to create recipe: $error'),
+                        title: const Text('Success'),
+                        content: const Text('Recipe created successfully!'),
                         actions: [
                           ElevatedButton(
                             onPressed: () {
@@ -544,12 +524,40 @@ class _AddRecipeState extends State<AddRecipeScreen> {
                         ],
                       ),
                     );
-                  },
-                );
-              },
-              text: 'Save Recipe',
-            ),
-          ],
+                    // Clear input fields
+                    _titleController.clear();
+                    _caloriesController.clear();
+                    _timeController.clear();
+                    _descriptionController.clear();
+                    _ingredients.clear();
+                    _tutorials.clear();
+                    setState(() {
+                      _photoUrl = null;
+                    });
+                  }).catchError(
+                    (error) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Error'),
+                          content: Text('Failed to create recipe: $error'),
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/home');
+                              },
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+                text: 'Save Recipe',
+              ),
+            ],
+          ),
         ),
       ),
     );

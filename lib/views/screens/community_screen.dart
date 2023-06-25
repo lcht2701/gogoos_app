@@ -10,6 +10,14 @@ class CommunityScreen extends StatefulWidget {
 class _CommunityScreenState extends State<CommunityScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const Scaffold(
+      body: Center(
+        child: Text(
+          "Currently, this feature continues to get developed. Please return later!",
+          style: TextStyle(fontSize: 20),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
   }
 }

@@ -21,56 +21,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   //all user
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('Users');
-  //edit field
-  Future<void> editField(String field) async {
-    String newValue = "";
-    await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.grey[800],
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(15),
-          ),
-        ),
-        title: Text(
-          "Edit $field",
-          style: const TextStyle(color: Colors.white),
-        ),
-        content: TextField(
-          autofocus: true,
-          style: const TextStyle(color: Colors.white),
-          decoration: InputDecoration(
-            hintText: "Enter new $field",
-            hintStyle: const TextStyle(color: Colors.white),
-          ),
-          onChanged: (value) => newValue = value,
-        ),
-        actions: [
-          //cancel button
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text(
-              'Cancel',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          //save button
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(newValue),
-            child: const Text(
-              'Save',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
-      ),
-    );
-
-    if (newValue.trim().isNotEmpty) {
-      await usersCollection.doc(currentUser.uid).update({field: newValue});
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,11 +38,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         actions: [
-          IconButton(
-            onPressed: () {
+          GestureDetector(
+            onTap: () {
               Navigator.pushNamed(context, '/add_recipe');
             },
-            icon: const Icon(
+            child: const Icon(
               Icons.add_box_outlined,
               color: Colors.black,
             ),
@@ -196,11 +146,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     height: 100,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(100),
-                                      child: Image(
-                                        image: NetworkImage(
-                                            userData['profileImg']),
-                                        fit: BoxFit.cover,
-                                      ),
+                                      child: userData['profileImg'] != null
+                                          ? Image.network(
+                                              userData['profileImg'],
+                                              fit: BoxFit.cover,
+                                              errorBuilder:
+                                                  (context, error, stackTrace) {
+                                                return Container(
+                                                  color: Colors.grey,
+                                                );
+                                              },
+                                            )
+                                          : Container(
+                                              color: Colors.grey,
+                                            ),
                                     ),
                                   ),
                                   Positioned(
