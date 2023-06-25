@@ -6,9 +6,9 @@ import '../utils/app_color.dart';
 class MenuSection extends StatelessWidget {
   final String leftText;
   final String textButton;
-  Function() onPressed;
+  final Function() onPressed;
 
-  MenuSection({
+  const MenuSection({
     Key? key,
     required this.leftText,
     required this.textButton,

@@ -5,7 +5,7 @@ class ProfileMenuWidget extends StatelessWidget {
     Key? key,
     required this.title,
     required this.icon,
-    required this.onPress,
+    required this.onPressed,
     this.endIcon = true,
     this.textColor,
     this.iconColor,
@@ -14,14 +14,14 @@ class ProfileMenuWidget extends StatelessWidget {
   final String title;
   final IconData icon;
   final Color? iconColor;
-  final VoidCallback onPress;
+  final VoidCallback onPressed;
   final bool endIcon;
   final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: onPress,
+      onTap: onPressed,
       leading: SizedBox(
         width: 40,
         height: 40,

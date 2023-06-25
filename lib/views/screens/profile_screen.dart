@@ -132,8 +132,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 iconColor: Colors.black,
                                 textColor: Colors.black,
                                 endIcon: false,
-                                onPress: () {
-                                  Navigator.pop(context);
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/edit_profile');
                                 },
                               ),
                               ProfileMenuWidget(
@@ -142,7 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 iconColor: Colors.red,
                                 textColor: Colors.red,
                                 endIcon: false,
-                                onPress: () {
+                                onPressed: () {
                                   AuthController().signOut();
                                   Navigator.pop(context);
                                 },
@@ -287,42 +287,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 35),
 
-                    /// -- MY PROFILE
-                    Container(
-                      margin: const EdgeInsets.only(
-                        left: 16,
-                        right: 16,
-                      ),
-                      child: const Align(
-                        alignment: AlignmentDirectional.topStart,
-                        child: Text(
-                          'My Information',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ),
-                    ProfileTextBoxWidget(
-                      sectionName: 'Name',
-                      text: userData['name'],
-                      onPressed: () => editField('name'),
-                    ),
-                    ProfileTextBoxWidget(
-                      sectionName: 'Username',
-                      text: userData['username'],
-                      onPressed: () => editField('username'),
-                    ),
-                    ProfileTextBoxWidget(
-                      sectionName: 'Phone Number',
-                      text: userData['phoneNumber'],
-                      onPressed: () => editField('phoneNumber'),
-                    ),
-                    const SizedBox(height: 20),
+                    // /// -- MY PROFILE
+                    // Container(
+                    //   margin: const EdgeInsets.only(
+                    //     left: 16,
+                    //     right: 16,
+                    //   ),
+                    //   child: const Align(
+                    //     alignment: AlignmentDirectional.topStart,
+                    //     child: Text(
+                    //       'My Information',
+                    //       style: TextStyle(
+                    //         fontWeight: FontWeight.w500,
+                    //         color: Colors.black,
+                    //         fontSize: 16,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    // ProfileTextBoxWidget(
+                    //   sectionName: 'Name',
+                    //   text: userData['name'],
+                    //   onPressed: () => editField('name'),
+                    // ),
+                    // ProfileTextBoxWidget(
+                    //   sectionName: 'Username',
+                    //   text: userData['username'],
+                    //   onPressed: () => editField('username'),
+                    // ),
+                    // ProfileTextBoxWidget(
+                    //   sectionName: 'Phone Number',
+                    //   text: userData['phoneNumber'],
+                    //   onPressed: () => editField('phoneNumber'),
+                    // ),
+                    // const SizedBox(height: 20),
                   ],
                 ),
               ),
