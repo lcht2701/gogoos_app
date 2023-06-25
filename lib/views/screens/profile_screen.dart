@@ -7,7 +7,6 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../widgets/profile_menu_widget.dart';
-import '../widgets/profile_text_box.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -287,41 +286,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                     ),
-
-                    // /// -- MY PROFILE
-                    // Container(
-                    //   margin: const EdgeInsets.only(
-                    //     left: 16,
-                    //     right: 16,
-                    //   ),
-                    //   child: const Align(
-                    //     alignment: AlignmentDirectional.topStart,
-                    //     child: Text(
-                    //       'My Information',
-                    //       style: TextStyle(
-                    //         fontWeight: FontWeight.w500,
-                    //         color: Colors.black,
-                    //         fontSize: 16,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // ProfileTextBoxWidget(
-                    //   sectionName: 'Name',
-                    //   text: userData['name'],
-                    //   onPressed: () => editField('name'),
-                    // ),
-                    // ProfileTextBoxWidget(
-                    //   sectionName: 'Username',
-                    //   text: userData['username'],
-                    //   onPressed: () => editField('username'),
-                    // ),
-                    // ProfileTextBoxWidget(
-                    //   sectionName: 'Phone Number',
-                    //   text: userData['phoneNumber'],
-                    //   onPressed: () => editField('phoneNumber'),
-                    // ),
-                    // const SizedBox(height: 20),
                   ],
                 ),
               ),
