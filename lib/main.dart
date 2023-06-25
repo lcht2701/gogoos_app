@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:gogoos_app/views/screens/add_recipe_screen.dart';
+import 'package:gogoos_app/views/screens/edit_profile_screen.dart';
 import 'package:gogoos_app/views/screens/home_screen.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
 
@@ -31,6 +32,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => const HomeScreen(),
         '/add_recipe': (context) => const AddRecipeScreen(),
+        '/edit_profile': (context) => const EditProfileScreen(),
+        '/auth': (context) => const AuthScreen(),
       },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

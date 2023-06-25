@@ -7,7 +7,6 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../widgets/profile_menu_widget.dart';
-import '../widgets/profile_text_box.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -22,56 +21,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   //all user
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('Users');
-  //edit field
-  Future<void> editField(String field) async {
-    String newValue = "";
-    await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.grey[800],
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(15),
-          ),
-        ),
-        title: Text(
-          "Edit $field",
-          style: const TextStyle(color: Colors.white),
-        ),
-        content: TextField(
-          autofocus: true,
-          style: const TextStyle(color: Colors.white),
-          decoration: InputDecoration(
-            hintText: "Enter new $field",
-            hintStyle: const TextStyle(color: Colors.white),
-          ),
-          onChanged: (value) => newValue = value,
-        ),
-        actions: [
-          //cancel button
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text(
-              'Cancel',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          //save button
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(newValue),
-            child: const Text(
-              'Save',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
-      ),
-    );
-
-    if (newValue.trim().isNotEmpty) {
-      await usersCollection.doc(currentUser.uid).update({field: newValue});
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,11 +38,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         actions: [
-          IconButton(
-            onPressed: () {
+          GestureDetector(
+            onTap: () {
               Navigator.pushNamed(context, '/add_recipe');
             },
-            icon: const Icon(
+            child: const Icon(
               Icons.add_box_outlined,
               color: Colors.black,
             ),
@@ -132,8 +81,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 iconColor: Colors.black,
                                 textColor: Colors.black,
                                 endIcon: false,
-                                onPress: () {
-                                  Navigator.pop(context);
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/edit_profile');
                                 },
                               ),
                               ProfileMenuWidget(
@@ -142,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 iconColor: Colors.red,
                                 textColor: Colors.red,
                                 endIcon: false,
-                                onPress: () {
+                                onPressed: () {
                                   AuthController().signOut();
                                   Navigator.pop(context);
                                 },
@@ -197,11 +146,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     height: 100,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(100),
-                                      child: Image(
-                                        image: NetworkImage(
-                                            userData['profileImg']),
-                                        fit: BoxFit.cover,
-                                      ),
+                                      child: userData['profileImg'] != null
+                                          ? Image.network(
+                                              userData['profileImg'],
+                                              fit: BoxFit.cover,
+                                              errorBuilder:
+                                                  (context, error, stackTrace) {
+                                                return Container(
+                                                  color: Colors.grey,
+                                                );
+                                              },
+                                            )
+                                          : Container(
+                                              color: Colors.grey,
+                                            ),
                                     ),
                                   ),
                                   Positioned(
@@ -287,42 +245,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 35),
-
-                    /// -- MY PROFILE
-                    Container(
-                      margin: const EdgeInsets.only(
-                        left: 16,
-                        right: 16,
-                      ),
-                      child: const Align(
-                        alignment: AlignmentDirectional.topStart,
-                        child: Text(
-                          'My Information',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ),
-                    ProfileTextBoxWidget(
-                      sectionName: 'Name',
-                      text: userData['name'],
-                      onPressed: () => editField('name'),
-                    ),
-                    ProfileTextBoxWidget(
-                      sectionName: 'Username',
-                      text: userData['username'],
-                      onPressed: () => editField('username'),
-                    ),
-                    ProfileTextBoxWidget(
-                      sectionName: 'Phone Number',
-                      text: userData['phoneNumber'],
-                      onPressed: () => editField('phoneNumber'),
-                    ),
-                    const SizedBox(height: 20),
                   ],
                 ),
               ),

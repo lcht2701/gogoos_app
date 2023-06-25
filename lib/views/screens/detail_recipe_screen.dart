@@ -75,9 +75,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
           child: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            centerTitle: true,
-            title: const Text('Search Recipe',
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16)),
             leading: IconButton(
               icon:
                   const Icon(LineAwesomeIcons.angle_left, color: Colors.white),

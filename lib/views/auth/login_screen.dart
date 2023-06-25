@@ -126,7 +126,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 style: TextStyle(
                                   color: AppColor.orangeColor,
                                   fontWeight: FontWeight.w700,
-                                  fontFamily: 'inter',
                                 ),
                                 text: 'Forgot Password?'),
                           ),
@@ -136,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     // Log in Button
                   ],
                 ),
-                Mybutton(
+                MyFilledbutton(
                   onTap: signIn,
                   text: 'Log in',
                 ),

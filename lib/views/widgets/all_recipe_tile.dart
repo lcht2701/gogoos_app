@@ -24,7 +24,7 @@ class AllRecipesTile extends StatelessWidget {
         return ListView.separated(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: recipes.length,
+          itemCount: 5,
           separatorBuilder: (BuildContext context, int index) {
             return const SizedBox(height: 10); // Add a small gap between items
           },
