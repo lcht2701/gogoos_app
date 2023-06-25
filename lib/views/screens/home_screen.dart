@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gogoos_app/controllers/admob_controller.dart';
+import 'package:gogoos_app/views/screens/community_screen.dart';
 import 'package:gogoos_app/views/screens/profile_screen.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
+import 'package:gogoos_app/views/widgets/horizontal_button_list.dart';
+import 'package:gogoos_app/views/widgets/menu_section.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:molten_navigationbar_flutter/molten_navigationbar_flutter.dart';
@@ -9,7 +12,6 @@ import 'package:molten_navigationbar_flutter/molten_navigationbar_flutter.dart';
 import '../../controllers/user_controller.dart';
 import '../../models/role.dart';
 import '../widgets/all_recipe_tile.dart';
-import '../widgets/homescreen_functions.dart';
 import '../widgets/homescreen_header.dart';
 import '../widgets/top_recipe_card.dart';
 import 'add_recipe_screen.dart';
@@ -123,8 +125,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   const HomeScreenHeader(),
-                  const SizedBox(height: 14),
-                  const HomeScreenFunctions(),
+                  const SizedBox(height: 18),
+                  const Center(
+                    child: HorizontalButtonList(),
+                  ),
                   _banner != null &&
                           _userRole != null &&
                           _userRole == UserRole.Free
@@ -135,63 +139,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: AdWidget(ad: _banner!),
                         )
                       : Container(),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Today\'s Top Recipes',
-                          style: TextStyle(
-                            color: AppColor.darkColor,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 20,
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: _showInterstitialAd,
-                          child: Text(
-                            'See All',
-                            style: TextStyle(
-                              color: AppColor.orangeColor,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  MenuSection(
+                      leftText: "Today's Top Recipes",
+                      textButton: "See All",
+                      onPressed: _showInterstitialAd),
                   const SizedBox(height: 8),
                   const SizedBox(
                     height: 190,
                     child: TopRecipeCard(),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Recommended',
-                        style: TextStyle(
-                          color: AppColor.darkColor,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 20,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: _showInterstitialAd,
-                        child: Text(
-                          'See All',
-                          style: TextStyle(
-                            color: AppColor.orangeColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  MenuSection(
+                      leftText: "Recommended",
+                      textButton: "See All",
+                      onPressed: _showInterstitialAd),
                   const AllRecipesTile(),
                 ],
               ),
@@ -199,6 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           const SearchScreen(),
           const AddRecipeScreen(),
+          const CommunityScreen(),
           const ProfileScreen(),
         ],
       ),
@@ -220,6 +181,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           MoltenTab(
             icon: const Icon(LineAwesomeIcons.plus),
+          ),
+          MoltenTab(
+            icon: const Icon(LineAwesomeIcons.alternate_share),
           ),
           MoltenTab(
             icon: const Icon(LineAwesomeIcons.user),
