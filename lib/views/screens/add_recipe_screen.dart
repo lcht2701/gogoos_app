@@ -555,6 +555,7 @@ class _AddRecipeState extends State<AddRecipeScreen> {
                   );
                 },
                 text: 'Save Recipe',
+                color: AppColor.orangeSoftColor,
               ),
             ],
           ),

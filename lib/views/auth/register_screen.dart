@@ -138,6 +138,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 MyFilledbutton(
                   onTap: signUp,
                   text: 'Sign Up',
+                  color: AppColor.orangeSoftColor,
                 )
               ],
             ),

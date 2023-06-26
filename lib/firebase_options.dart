@@ -49,7 +49,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '178148387712',
     projectId: 'gogoos-app',
     authDomain: 'gogoos-app.firebaseapp.com',
-    databaseURL: 'https://gogoos-app-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://gogoos-app-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'gogoos-app.appspot.com',
     measurementId: 'G-LDPC8GMSJK',
   );
@@ -59,7 +60,8 @@ class DefaultFirebaseOptions {
     appId: '1:178148387712:android:b1e644f0e70a719f3def65',
     messagingSenderId: '178148387712',
     projectId: 'gogoos-app',
-    databaseURL: 'https://gogoos-app-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://gogoos-app-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'gogoos-app.appspot.com',
   );
 
@@ -68,9 +70,11 @@ class DefaultFirebaseOptions {
     appId: '1:178148387712:ios:a1c7f889e0313e5b3def65',
     messagingSenderId: '178148387712',
     projectId: 'gogoos-app',
-    databaseURL: 'https://gogoos-app-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://gogoos-app-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'gogoos-app.appspot.com',
-    iosClientId: '178148387712-sk275b46kkj8mdkbjfpn2j87sj5hbjse.apps.googleusercontent.com',
+    iosClientId:
+        '178148387712-sk275b46kkj8mdkbjfpn2j87sj5hbjse.apps.googleusercontent.com',
     iosBundleId: 'com.example.gogoosApp',
   );
 
@@ -79,9 +83,11 @@ class DefaultFirebaseOptions {
     appId: '1:178148387712:ios:b0d526d9f1380d423def65',
     messagingSenderId: '178148387712',
     projectId: 'gogoos-app',
-    databaseURL: 'https://gogoos-app-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://gogoos-app-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'gogoos-app.appspot.com',
-    iosClientId: '178148387712-oelrh4jt64nes8ut0sk63bnhl8dhl2hf.apps.googleusercontent.com',
+    iosClientId:
+        '178148387712-oelrh4jt64nes8ut0sk63bnhl8dhl2hf.apps.googleusercontent.com',
     iosBundleId: 'com.example.gogoosApp.RunnerTests',
   );
 }

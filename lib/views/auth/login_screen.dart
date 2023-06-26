@@ -138,6 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 MyFilledbutton(
                   onTap: signIn,
                   text: 'Log in',
+                  color: AppColor.orangeSoftColor,
                 ),
               ],
             ),

@@ -4,11 +4,13 @@ import 'package:gogoos_app/views/utils/app_color.dart';
 class MyFilledbutton extends StatelessWidget {
   final Function()? onTap;
   final String text;
+  final Color color;
 
   const MyFilledbutton({
     super.key,
     required this.onTap,
     required this.text,
+    required this.color,
   });
 
   @override
@@ -19,7 +21,7 @@ class MyFilledbutton extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 85 / 100,
         height: 40,
         decoration: BoxDecoration(
-          color: AppColor.orangeSoftColor,
+          color: color,
           borderRadius: BorderRadius.circular(25),
         ),
         child: Center(
