@@ -112,6 +112,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                       MyFilledbutton(
                         onTap: canResendEmail ? sendVerificationEmail : null,
                         text: "Resend Email",
+                        color: AppColor.orangeSoftColor,
                       ),
                       const SizedBox(height: 14),
                       BorderedButton(

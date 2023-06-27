@@ -50,58 +50,59 @@ class _ProfileScreenState extends State<ProfileScreen> {
           IconButton(
             onPressed: () {
               showModalBottomSheet(
-                  context: context,
-                  shape: const RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20))),
-                  builder: (BuildContext context) {
-                    return Stack(
-                      clipBehavior: Clip.none,
-                      alignment: Alignment.topCenter,
-                      children: [
-                        Positioned(
-                          top: 10,
-                          child: Container(
-                            height: 4,
-                            width: 70,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(14),
-                              color: Colors.grey,
+                context: context,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                ),
+                builder: (BuildContext context) {
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    alignment: Alignment.topCenter,
+                    children: [
+                      Positioned(
+                        top: 10,
+                        child: Container(
+                          height: 4,
+                          width: 70,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 10),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ProfileMenuWidget(
+                              title: "Edit Profile",
+                              icon: LineAwesomeIcons.user_cog,
+                              iconColor: Colors.black,
+                              textColor: Colors.black,
+                              endIcon: false,
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/edit_profile');
+                              },
                             ),
-                          ),
+                            ProfileMenuWidget(
+                              title: "Logout",
+                              icon: LineAwesomeIcons.alternate_sign_out,
+                              iconColor: Colors.red,
+                              textColor: Colors.red,
+                              endIcon: false,
+                              onPressed: () {
+                                AuthController().signOut();
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 10),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ProfileMenuWidget(
-                                title: "Edit Profile",
-                                icon: LineAwesomeIcons.user_cog,
-                                iconColor: Colors.black,
-                                textColor: Colors.black,
-                                endIcon: false,
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/edit_profile');
-                                },
-                              ),
-                              ProfileMenuWidget(
-                                title: "Logout",
-                                icon: LineAwesomeIcons.alternate_sign_out,
-                                iconColor: Colors.red,
-                                textColor: Colors.red,
-                                endIcon: false,
-                                onPressed: () {
-                                  AuthController().signOut();
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    );
-                  });
+                      ),
+                    ],
+                  );
+                },
+              );
             },
             icon: const Icon(
               LineAwesomeIcons.bars,
