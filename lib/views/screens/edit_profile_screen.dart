@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../controllers/user_controller.dart';
-import '../utils/app_color.dart';
 import '../widgets/profile_text_box.dart';
 
 class EditProfileScreen extends StatefulWidget {
