@@ -15,7 +15,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "178148387712-idbj2q2g1rke8r74ntr1iq0kbis4s5he.apps.googleusercontent.com",
+          "client_id": "178148387712-q0mnhh1lijb99laid99rhuf0t2t0dloq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gogoos_app",
+            "certificate_hash": "5adf60ea2dca153fb984864939c4ad8dac097285"
+          }
+        },
+        {
+          "client_id": "178148387712-0g8feml31san4ta2nkhhculu3l6nhb3c.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -28,7 +36,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "178148387712-idbj2q2g1rke8r74ntr1iq0kbis4s5he.apps.googleusercontent.com",
+              "client_id": "178148387712-0g8feml31san4ta2nkhhculu3l6nhb3c.apps.googleusercontent.com",
               "client_type": 3
             },
             {
@@ -41,6 +49,51 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178148387712:android:c4490f641364176b3def65",
+        "android_client_info": {
+          "package_name": "com.gogoos.gogoosrecipe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178148387712-mclcse2l1rhcvssp3lgko1ll02vb61cb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gogoos.gogoosrecipe",
+            "certificate_hash": "5f14c06121c867b81b2eb71d239e9f01257ea3a0"
+          }
+        },
+        {
+          "client_id": "178148387712-0g8feml31san4ta2nkhhculu3l6nhb3c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAi4TEBs-627uSS2X4dlhjVTjOsdQhPE8c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "178148387712-0g8feml31san4ta2nkhhculu3l6nhb3c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "178148387712-oelrh4jt64nes8ut0sk63bnhl8dhl2hf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gogoosApp.RunnerTests"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-6041072089805836~5419296026"
     }
   ],
   "configuration_version": "1"
