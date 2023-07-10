@@ -12,8 +12,8 @@ import '../widgets/review_tile.dart';
 import '../widgets/tutorial_tile.dart';
 
 class RecipeDetailScreen extends StatefulWidget {
-  final Recipe data;
-  const RecipeDetailScreen({super.key, required this.data});
+  final Recipe? data;
+  const RecipeDetailScreen({super.key, this.data});
   @override
   State<RecipeDetailScreen> createState() => _RecipeDetailScreenState();
 }
@@ -65,6 +65,16 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
 
   @override
   Widget build(BuildContext context) {
+    if (widget.data == null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Recipe Detail'),
+        ),
+        body: const Center(
+          child: Text('Recipe not found'),
+        ),
+      );
+    }
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
@@ -164,7 +174,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) =>
-                      FullScreenImage(image: widget.data.photoUrl),
+                      FullScreenImage(image: widget.data!.photoUrl),
                 ),
               );
             },
@@ -173,7 +183,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: NetworkImage(widget.data.photoUrl),
+                      image: NetworkImage(widget.data!.photoUrl),
                       fit: BoxFit.cover)),
               child: Container(
                 decoration: BoxDecoration(gradient: AppColor.linearBlackTop),
@@ -197,7 +207,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
                   alignment: Alignment.topLeft,
                   margin: const EdgeInsets.only(bottom: 5, top: 16),
                   child: Text(
-                    widget.data.title,
+                    widget.data!.title,
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 28,
@@ -217,7 +227,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
                     Container(
                       margin: const EdgeInsets.only(left: 5),
                       child: Text(
-                        '${widget.data.calories} calories',
+                        '${widget.data!.calories} calories',
                         style:
                             const TextStyle(color: Colors.white, fontSize: 12),
                       ),
@@ -231,7 +241,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
                     Container(
                       margin: const EdgeInsets.only(),
                       child: Text(
-                        '${widget.data.time} min',
+                        '${widget.data!.time} min',
                         style:
                             const TextStyle(color: Colors.white, fontSize: 12),
                       ),
@@ -242,7 +252,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
                 Container(
                   margin: const EdgeInsets.only(top: 5),
                   child: RecipeDescription(
-                    description: widget.data.description,
+                    description: widget.data!.description,
                   ),
                 ),
               ],
@@ -287,14 +297,14 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 itemCount: _tabController.index == 0
-                    ? widget.data
-                        .getIngredientsForRecipeId(widget.data.id)
+                    ? widget.data!
+                        .getIngredientsForRecipeId(widget.data!.id)
                         .length
                     : 0,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   final ingredients =
-                      widget.data.getIngredientsForRecipeId(widget.data.id);
+                      widget.data!.getIngredientsForRecipeId(widget.data!.id);
                   return IngredientTile(data: ingredients[index]);
                 },
               ),
@@ -303,12 +313,14 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 itemCount: _tabController.index == 1
-                    ? widget.data.getTutorialsForRecipeId(widget.data.id).length
+                    ? widget.data!
+                        .getTutorialsForRecipeId(widget.data!.id)
+                        .length
                     : 0,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   final tutorials =
-                      widget.data.getTutorialsForRecipeId(widget.data.id);
+                      widget.data!.getTutorialsForRecipeId(widget.data!.id);
                   return TutorialTile(data: tutorials[index]);
                 },
               ),
@@ -317,12 +329,12 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen>
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 itemCount: _tabController.index == 2
-                    ? widget.data.getReviewsForRecipeId(widget.data.id).length
+                    ? widget.data!.getReviewsForRecipeId(widget.data!.id).length
                     : 0,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   final reviews =
-                      widget.data.getReviewsForRecipeId(widget.data.id);
+                      widget.data!.getReviewsForRecipeId(widget.data!.id);
                   return ReviewTile(data: reviews[index]);
                 },
               ),

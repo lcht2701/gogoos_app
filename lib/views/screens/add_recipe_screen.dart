@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gogoos_app/views/widgets/button.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -21,6 +22,8 @@ class AddRecipeScreen extends StatefulWidget {
 }
 
 class _AddRecipeState extends State<AddRecipeScreen> {
+  final currentUser = FirebaseAuth.instance.currentUser!;
+
   // Define variables
   String? _photoUrl;
   late String _title;
@@ -507,8 +510,11 @@ class _AddRecipeState extends State<AddRecipeScreen> {
                     isTopRecipe: false,
                     ingredients: _ingredients,
                     tutorials: _tutorials,
+                    dateCreated: DateTime.now(),
                   );
-                  RecipeController().addRecipe(newRecipe).then((_) {
+                  RecipeController()
+                      .addRecipe(newRecipe, currentUser.uid)
+                      .then((_) {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
