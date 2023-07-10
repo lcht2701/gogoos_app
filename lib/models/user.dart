@@ -1,5 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
+import 'package:gogoos_app/models/recipe.dart';
 import 'package:gogoos_app/models/role.dart';
 
 class AppUser {
@@ -11,6 +15,9 @@ class AppUser {
   final String phoneNumber;
   final UserRole role;
 
+  List<Recipe>? myRecipes;
+  List<Recipe>? savedRecipes;
+
   AppUser({
     required this.id,
     required this.username,
@@ -19,6 +26,8 @@ class AppUser {
     required this.profileImg,
     required this.phoneNumber,
     required this.role,
+    this.myRecipes,
+    this.savedRecipes,
   });
 
   AppUser copyWith({
@@ -29,6 +38,8 @@ class AppUser {
     String? profileImg,
     String? phoneNumber,
     UserRole? role,
+    List<Recipe>? myRecipes,
+    List<Recipe>? savedRecipes,
   }) {
     return AppUser(
       id: id ?? this.id,
@@ -38,6 +49,8 @@ class AppUser {
       profileImg: profileImg ?? this.profileImg,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       role: role ?? this.role,
+      myRecipes: myRecipes ?? this.myRecipes,
+      savedRecipes: savedRecipes ?? this.savedRecipes,
     );
   }
 
@@ -49,7 +62,9 @@ class AppUser {
       'email': email,
       'profileImg': profileImg,
       'phoneNumber': phoneNumber,
-      'role': role.toString().split('.').last, // Store role as string
+      'role': role.toString().split('.').last,
+      'myRecipes': myRecipes?.map((x) => x.toMap()).toList(),
+      'savedRecipes': savedRecipes?.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -64,6 +79,20 @@ class AppUser {
       role: UserRole.values.firstWhere(
         (role) => role.toString().split('.').last == map['role'],
       ),
+      myRecipes: map['myRecipes'] != null
+          ? List<Recipe>.from(
+              (map['myRecipes'] as List<int>).map<Recipe?>(
+                (x) => Recipe.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : null,
+      savedRecipes: map['savedRecipes'] != null
+          ? List<Recipe>.from(
+              (map['savedRecipes'] as List<int>).map<Recipe?>(
+                (x) => Recipe.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : null,
     );
   }
 
@@ -74,7 +103,7 @@ class AppUser {
 
   @override
   String toString() {
-    return 'AppUser(id: $id, username: $username, name: $name, email: $email, profileImg: $profileImg, phoneNumber: $phoneNumber, role: $role)';
+    return 'AppUser(id: $id, username: $username, name: $name, email: $email, profileImg: $profileImg, phoneNumber: $phoneNumber, role: $role, myRecipes: $myRecipes, savedRecipes: $savedRecipes)';
   }
 
   @override
@@ -87,7 +116,9 @@ class AppUser {
         other.email == email &&
         other.profileImg == profileImg &&
         other.phoneNumber == phoneNumber &&
-        other.role == role;
+        other.role == role &&
+        listEquals(other.myRecipes, myRecipes) &&
+        listEquals(other.savedRecipes, savedRecipes);
   }
 
   @override
@@ -98,6 +129,8 @@ class AppUser {
         email.hashCode ^
         profileImg.hashCode ^
         phoneNumber.hashCode ^
-        role.hashCode;
+        role.hashCode ^
+        myRecipes.hashCode ^
+        savedRecipes.hashCode;
   }
 }

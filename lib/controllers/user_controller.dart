@@ -30,7 +30,7 @@ class UserController {
 
   Future<void> uploadProfileImg() async {
     final image = await ImagePicker().pickImage(
-      source: ImageSource.camera,
+      source: ImageSource.gallery,
       maxWidth: 512,
       maxHeight: 512,
       imageQuality: 75,
