@@ -6,8 +6,8 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 import '../../controllers/auth_controller.dart';
 import '../../controllers/user_controller.dart';
-import '../utils/profiletab_1.dart';
-import '../utils/profiletab_2.dart';
+import '../utils/my_recipes_tab.dart';
+import '../utils/saved_recipes_tab.dart';
 import '../widgets/profile_menu_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -20,9 +20,6 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   //current user
   final currentUser = FirebaseAuth.instance.currentUser!;
-  //all user
-  final CollectionReference usersCollection =
-      FirebaseFirestore.instance.collection('Users');
 
   @override
   Widget build(BuildContext context) {
@@ -271,8 +268,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const Expanded(
                     child: TabBarView(
                       children: [
-                        FirstTab(),
-                        SecondTab(),
+                        MyRecipesTab(),
+                        SavedRecipesTab(),
                       ],
                     ),
                   ),

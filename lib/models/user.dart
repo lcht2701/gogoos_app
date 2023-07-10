@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:gogoos_app/models/recipe.dart';
 import 'package:gogoos_app/models/role.dart';
 
 class AppUser {
@@ -15,8 +14,8 @@ class AppUser {
   final String phoneNumber;
   final UserRole role;
 
-  List<Recipe>? myRecipes;
-  List<Recipe>? savedRecipes;
+  List<String>? myRecipes;
+  List<String>? savedRecipes;
 
   AppUser({
     required this.id,
@@ -38,8 +37,8 @@ class AppUser {
     String? profileImg,
     String? phoneNumber,
     UserRole? role,
-    List<Recipe>? myRecipes,
-    List<Recipe>? savedRecipes,
+    List<String>? myRecipes,
+    List<String>? savedRecipes,
   }) {
     return AppUser(
       id: id ?? this.id,
@@ -63,8 +62,8 @@ class AppUser {
       'profileImg': profileImg,
       'phoneNumber': phoneNumber,
       'role': role.toString().split('.').last,
-      'myRecipes': myRecipes?.map((x) => x.toMap()).toList(),
-      'savedRecipes': savedRecipes?.map((x) => x.toMap()).toList(),
+      'myRecipes': myRecipes,
+      'savedRecipes': savedRecipes,
     };
   }
 
@@ -80,18 +79,10 @@ class AppUser {
         (role) => role.toString().split('.').last == map['role'],
       ),
       myRecipes: map['myRecipes'] != null
-          ? List<Recipe>.from(
-              (map['myRecipes'] as List<int>).map<Recipe?>(
-                (x) => Recipe.fromMap(x as Map<String, dynamic>),
-              ),
-            )
+          ? List<String>.from(map['myRecipes'] as List<String>)
           : null,
       savedRecipes: map['savedRecipes'] != null
-          ? List<Recipe>.from(
-              (map['savedRecipes'] as List<int>).map<Recipe?>(
-                (x) => Recipe.fromMap(x as Map<String, dynamic>),
-              ),
-            )
+          ? List<String>.from(map['savedRecipes'] as List<String>)
           : null,
     );
   }

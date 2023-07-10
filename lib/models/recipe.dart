@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, depend_on_referenced_packages
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 import 'ingredient.dart';
@@ -14,6 +15,7 @@ class Recipe {
   final int calories;
   final int time;
   final String description;
+  final DateTime dateCreated;
 
   List<Ingredient>? ingredients;
   List<Tutorial>? tutorials;
@@ -29,6 +31,7 @@ class Recipe {
     required this.calories,
     required this.time,
     required this.description,
+    required this.dateCreated,
     this.ingredients,
     this.tutorials,
     this.reviews,
@@ -42,6 +45,7 @@ class Recipe {
     int? calories,
     int? time,
     String? description,
+    DateTime? dateCreated,
     List<Ingredient>? ingredients,
     List<Tutorial>? tutorials,
     List<Review>? reviews,
@@ -54,6 +58,7 @@ class Recipe {
       calories: calories ?? this.calories,
       time: time ?? this.time,
       description: description ?? this.description,
+      dateCreated: dateCreated ?? this.dateCreated,
       ingredients: ingredients ?? this.ingredients,
       tutorials: tutorials ?? this.tutorials,
       reviews: reviews ?? this.reviews,
@@ -69,6 +74,7 @@ class Recipe {
       'calories': calories,
       'time': time,
       'description': description,
+      'dateCreated': dateCreated.millisecondsSinceEpoch,
       'ingredients': ingredients?.map((x) => x.toMap()).toList(),
       'tutorials': tutorials?.map((x) => x.toMap()).toList(),
       'reviews': reviews?.map((x) => x.toMap()).toList(),
@@ -84,6 +90,7 @@ class Recipe {
       calories: map['calories'] as int,
       time: map['time'] as int,
       description: map['description'] as String,
+      dateCreated: (map['dateCreated'] as Timestamp).toDate(),
       ingredients: map['ingredients'] != null
           ? List<Ingredient>.from(
               (map['ingredients'] as List<int>).map<Ingredient?>(
@@ -116,7 +123,7 @@ class Recipe {
 
   @override
   String toString() {
-    return 'Recipe(id: $id, title: $title, photoUrl: $photoUrl, calories: $calories, time: $time, description: $description, ingredients: $ingredients, tutorials: $tutorials, reviews: $reviews, isTopRecipe: $isTopRecipe)';
+    return 'Recipe(id: $id, title: $title, photoUrl: $photoUrl, calories: $calories, time: $time, description: $description, dateCreated: $dateCreated, ingredients: $ingredients, tutorials: $tutorials, reviews: $reviews, isTopRecipe: $isTopRecipe)';
   }
 
   @override
@@ -129,6 +136,7 @@ class Recipe {
         other.calories == calories &&
         other.time == time &&
         other.description == description &&
+        other.dateCreated == dateCreated &&
         listEquals(other.ingredients, ingredients) &&
         listEquals(other.tutorials, tutorials) &&
         listEquals(other.reviews, reviews) &&
@@ -143,6 +151,7 @@ class Recipe {
         calories.hashCode ^
         time.hashCode ^
         description.hashCode ^
+        dateCreated.hashCode ^
         ingredients.hashCode ^
         tutorials.hashCode ^
         reviews.hashCode ^

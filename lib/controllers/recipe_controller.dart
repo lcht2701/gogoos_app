@@ -16,6 +16,8 @@ class RecipeController {
       FirebaseFirestore.instance.collection('Recipes');
   final CollectionReference _ingredientsCollection =
       FirebaseFirestore.instance.collection('Ingredients');
+  final CollectionReference _usersCollection =
+      FirebaseFirestore.instance.collection('Users');
 
   Future<List<Ingredient>> getAllIngredients() async {
     List<Ingredient> ingredientList = [];
@@ -36,88 +38,50 @@ class RecipeController {
   }
 
   Future<List<Recipe>> getAllRecipes() async {
-    List<Recipe> recipesList = [];
+    final List<Recipe> recipesList = [];
 
-    QuerySnapshot<Object?> recipeSnapshot = await _recipesCollection.get();
-    for (var rec in recipeSnapshot.docs) {
-      String id = rec.get('id');
-      String title = rec.get('title');
-      String photoUrl = rec.get('photoUrl');
-      int calories = rec.get('calories');
-      int time = rec.get('time');
-      String description = rec.get('description');
-      bool isTopRecipe = rec.get('isTopRecipe');
+    final QuerySnapshot<Object?> recipeSnapshot =
+        await _recipesCollection.get();
+    for (final QueryDocumentSnapshot rec in recipeSnapshot.docs) {
+      final String id = rec.get('id') as String;
+      final String title = rec.get('title') as String;
+      final String photoUrl = rec.get('photoUrl') as String;
+      final int calories = rec.get('calories') as int;
+      final int time = rec.get('time') as int;
+      final String description = rec.get('description') as String;
+      final bool isTopRecipe = rec.get('isTopRecipe') as bool;
 
-      // Initialize ingredientList, tutorialsList, and reviewList for each recipe
-      List<Ingredient> ingredientList = [];
-      List<Tutorial> tutorialsList = [];
-      List<Review> reviewList = [];
+      final Timestamp timestamp = rec.get('dateCreated') as Timestamp;
+      final DateTime dateCreated = timestamp.toDate();
 
-      QuerySnapshot<Map<String, dynamic>> ingredientSnapshot =
+      final ingredientSnapshot =
           await rec.reference.collection('ingredients').get();
-      for (var i in ingredientSnapshot.docs) {
-        String iid = i.get('id');
-        String iname = i.get('name');
-        String iamount = i.get('amount');
-        String iunit = i.get('unit');
-        String irecipeId = i.get('recipeId');
-
-        Ingredient ingredient = Ingredient(
-          id: iid,
-          unit: iunit,
-          amount: iamount,
-          name: iname,
-          recipeId: irecipeId,
-        );
-        ingredientList.add(ingredient);
-      }
-
-      QuerySnapshot<Map<String, dynamic>> tutorialSnapshot =
+      final tutorialSnapshot =
           await rec.reference.collection('tutorials').get();
-      for (var t in tutorialSnapshot.docs) {
-        String tid = t.get('id');
-        String tstep = t.get('step');
-        String tdescription = t.get('description');
-        String trecipeId = t.get('recipeId');
+      final reviewSnapshot = await rec.reference.collection('reviews').get();
 
-        Tutorial tutorial = Tutorial(
-          id: tid,
-          description: tdescription,
-          step: tstep,
-          recipeId: trecipeId,
-        );
-        tutorialsList.add(tutorial);
-      }
+      final List<Ingredient> ingredientList = ingredientSnapshot.docs
+          .map((i) => Ingredient.fromMap(i.data()))
+          .toList();
+      final List<Tutorial> tutorialsList =
+          tutorialSnapshot.docs.map((t) => Tutorial.fromMap(t.data())).toList();
+      final List<Review> reviewList =
+          reviewSnapshot.docs.map((r) => Review.fromMap(r.data())).toList();
 
-      QuerySnapshot<Map<String, dynamic>> reviewSnapshot =
-          await rec.reference.collection('reviews').get();
-      for (var rev in reviewSnapshot.docs) {
-        String rid = rev.get('id');
-        String rreview = rev.get('review');
-        String rusername = rev.get('username');
-        String rrecipeId = rev.get('recipeId');
-
-        Review review = Review(
-          id: rid,
-          review: rreview,
-          username: rusername,
-          recipeId: rrecipeId,
-        );
-        reviewList.add(review);
-      }
-
-      Recipe recipe = Recipe(
+      final Recipe recipe = Recipe(
         id: id,
         title: title,
         photoUrl: photoUrl,
         calories: calories,
         time: time,
-        isTopRecipe: isTopRecipe,
         description: description,
+        dateCreated: dateCreated,
         ingredients: ingredientList,
         tutorials: tutorialsList,
         reviews: reviewList,
+        isTopRecipe: isTopRecipe,
       );
+
       recipesList.add(recipe);
     }
 
@@ -173,7 +137,7 @@ class RecipeController {
     return filteredList;
   }
 
-  Future<void> addRecipe(Recipe recipe) async {
+  Future<void> addRecipe(Recipe recipe, String userId) async {
     final docRecipe = _recipesCollection.doc();
     String recipeId = docRecipe.id;
     // Set the data for the main recipe document
@@ -185,7 +149,22 @@ class RecipeController {
       'time': recipe.time,
       'description': recipe.description,
       'isTopRecipe': false,
+      'dateCreated': recipe.dateCreated
     });
+
+    // Update the user's myRecipes list with the recipe ID
+    final userDoc = _usersCollection.doc(userId);
+    final userSnapshot = await userDoc.get();
+    if (userSnapshot.exists) {
+      final userData = userSnapshot.data() as Map<String, dynamic>;
+      List<dynamic> myRecipes = (userData['myRecipes'] ?? []) as List<dynamic>;
+      myRecipes.add(recipeId);
+
+      await userDoc.update({'myRecipes': myRecipes});
+    } else {
+      throw Exception('User document not found');
+    }
+
     // Add ingredients to Ingredients sub-collection
     if (recipe.ingredients != null) {
       CollectionReference ingredientCollection =
@@ -230,7 +209,7 @@ class RecipeController {
   }
 
   Future deleteRecipe(Recipe recipe) async {
-    await _recipesCollection.doc().delete();
+    await _recipesCollection.doc(recipe.id).delete();
   }
 
   Future<String> uploadRecipeImg() async {
