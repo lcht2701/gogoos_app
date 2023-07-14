@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
-import '../../api/purchase_api.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../utils/my_recipes_tab.dart';
@@ -21,19 +20,6 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   //current user
   final currentUser = FirebaseAuth.instance.currentUser!;
-
-  Future fetchOffer() async {
-    final offerings = await PurchaseApi.fetchOffers();
-
-    if (offerings.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('No Plans Found'),
-      ));
-    } else {
-      final offer = offerings.first;
-      debugPrint('Offer: $offer');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
