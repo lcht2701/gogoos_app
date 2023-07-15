@@ -3,6 +3,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:gogoos_app/views/screens/add_recipe_screen.dart';
 import 'package:gogoos_app/views/screens/edit_profile_screen.dart';
 import 'package:gogoos_app/views/screens/home_screen.dart';
+import 'package:gogoos_app/views/screens/momo_qr_screen.dart';
 import 'package:gogoos_app/views/utils/app_color.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const HomeScreen(),
         '/add_recipe': (context) => const AddRecipeScreen(),
         '/edit_profile': (context) => const EditProfileScreen(),
+        '/momo_qr': (context) => const MomoQrCodeScreen(),
         '/auth': (context) => const AuthScreen(),
       },
       debugShowCheckedModeBanner: false,

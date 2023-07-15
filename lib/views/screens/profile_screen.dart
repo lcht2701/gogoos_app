@@ -6,20 +6,42 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 import '../../controllers/auth_controller.dart';
 import '../../controllers/user_controller.dart';
+import '../../models/role.dart';
 import '../utils/my_recipes_tab.dart';
 import '../utils/saved_recipes_tab.dart';
 import '../widgets/profile_menu_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  //current user
   final currentUser = FirebaseAuth.instance.currentUser!;
+  late UserRole _userRole = UserRole.Free;
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserRole();
+  }
+
+  void _getUserRole() async {
+    String? userRole = await UserController().getUserRole();
+    if (userRole != null && mounted) {
+      setState(() {
+        if (userRole == 'Free') {
+          _userRole = UserRole.Free;
+        } else if (userRole == 'Premium') {
+          _userRole = UserRole.Premium;
+        } else {
+          _userRole = UserRole.Admin;
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           centerTitle: false,
           backgroundColor: Colors.transparent,
           elevation: 0,
+          automaticallyImplyLeading: false,
           title: const Text(
             'My Profile',
             style: TextStyle(
@@ -77,19 +100,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
+                              if (_userRole == UserRole.Free)
+                                ProfileMenuWidget(
+                                  title: "Premium Subscription",
+                                  icon: LineAwesomeIcons.credit_card,
+                                  iconColor: Colors.black,
+                                  textColor: Colors.black,
+                                  endIcon: false,
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/momo_qr');
+                                  },
+                                ),
                               ProfileMenuWidget(
                                 title: "Edit Profile",
                                 icon: LineAwesomeIcons.user_cog,
-                                iconColor: Colors.black,
-                                textColor: Colors.black,
-                                endIcon: false,
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/edit_profile');
-                                },
-                              ),
-                              ProfileMenuWidget(
-                                title: "Premium Subcription",
-                                icon: LineAwesomeIcons.credit_card,
                                 iconColor: Colors.black,
                                 textColor: Colors.black,
                                 endIcon: false,
@@ -275,7 +299,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
 
-                  const Expanded(
+                  Expanded(
                     child: TabBarView(
                       children: [
                         MyRecipesTab(),
