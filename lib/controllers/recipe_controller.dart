@@ -36,11 +36,24 @@ class RecipeController {
   }
 
   Future<List<Recipe>> getAllRecipes() async {
-    final List<Recipe> recipesList = [];
-
     final QuerySnapshot<Object?> recipeSnapshot =
         await _recipesCollection.get();
-    for (final QueryDocumentSnapshot rec in recipeSnapshot.docs) {
+
+    final List<Recipe> recipesList = [];
+    final List<Future<QuerySnapshot<Object?>>> recipeSubCollections = [];
+
+    // Fetch all sub-collections (ingredients, tutorials, and reviews) in parallel
+    for (var rec in recipeSnapshot.docs) {
+      recipeSubCollections.add(rec.reference.collection('ingredients').get());
+      recipeSubCollections.add(rec.reference.collection('tutorials').get());
+      recipeSubCollections.add(rec.reference.collection('reviews').get());
+    }
+
+    final List<QuerySnapshot<Object?>> subCollectionSnapshots =
+        await Future.wait(recipeSubCollections);
+
+    for (int i = 0; i < recipeSnapshot.docs.length; i++) {
+      final QueryDocumentSnapshot rec = recipeSnapshot.docs[i];
       final String id = rec.get('id') as String;
       final String title = rec.get('title') as String;
       final String photoUrl = rec.get('photoUrl') as String;
@@ -52,19 +65,21 @@ class RecipeController {
       final Timestamp timestamp = rec.get('dateCreated') as Timestamp;
       final DateTime dateCreated = timestamp.toDate();
 
-      final ingredientSnapshot =
-          await rec.reference.collection('ingredients').get();
-      final tutorialSnapshot =
-          await rec.reference.collection('tutorials').get();
-      final reviewSnapshot = await rec.reference.collection('reviews').get();
-
-      final List<Ingredient> ingredientList = ingredientSnapshot.docs
-          .map((i) => Ingredient.fromMap(i.data()))
+      final List<Ingredient> ingredientList =
+          (subCollectionSnapshots[i * 3] as QuerySnapshot<Map<String, dynamic>>)
+              .docs
+              .map((i) => Ingredient.fromMap(i.data()))
+              .toList();
+      final List<Tutorial> tutorialsList = (subCollectionSnapshots[i * 3 + 1]
+              as QuerySnapshot<Map<String, dynamic>>)
+          .docs
+          .map((t) => Tutorial.fromMap(t.data()))
           .toList();
-      final List<Tutorial> tutorialsList =
-          tutorialSnapshot.docs.map((t) => Tutorial.fromMap(t.data())).toList();
-      final List<Review> reviewList =
-          reviewSnapshot.docs.map((r) => Review.fromMap(r.data())).toList();
+      final List<Review> reviewList = (subCollectionSnapshots[i * 3 + 2]
+              as QuerySnapshot<Map<String, dynamic>>)
+          .docs
+          .map((r) => Review.fromMap(r.data()))
+          .toList();
 
       final Recipe recipe = Recipe(
         id: id,
@@ -103,15 +118,12 @@ class RecipeController {
       return recipes;
     }
 
-    // Convert the search query to lowercase for case-insensitive search
-    String lowercaseQuery = searchQuery.toLowerCase();
+    // Use RegExp to perform a case-insensitive search
+    final RegExp regExp = RegExp(searchQuery, caseSensitive: false);
 
-    // Filter the list based on the search query
-    List<Recipe> filteredList = recipes.where((recipe) {
-      String lowercaseTitle = recipe.title.toLowerCase();
-
-      return lowercaseTitle.contains(lowercaseQuery);
-    }).toList();
+    // Filter the list based on the search query using RegExp
+    List<Recipe> filteredList =
+        recipes.where((recipe) => regExp.hasMatch(recipe.title)).toList();
 
     return filteredList;
   }

@@ -87,24 +87,19 @@ class UserController {
                 .doc(user.uid)
                 .get();
 
-        final List<Recipe> myRecipes = [];
-
         if (snapshot.exists) {
           final data = snapshot.data();
           final List<String>? recipeIds = data?['myRecipes']?.cast<String>();
 
-          if (recipeIds != null) {
+          if (recipeIds != null && recipeIds.isNotEmpty) {
             final List<Recipe> allRecipes =
                 await RecipeController().getAllRecipes();
-            for (final recipeId in recipeIds) {
-              final Recipe recipe =
-                  allRecipes.firstWhere((recipe) => recipe.id == recipeId);
-              myRecipes.add(recipe);
-            }
+            final List<Recipe> myRecipes = allRecipes
+                .where((recipe) => recipeIds.contains(recipe.id))
+                .toList();
+            return myRecipes;
           }
         }
-
-        return myRecipes;
       }
     } catch (e) {
       debugPrint('Error getting user\'s created recipes: $e');
@@ -143,7 +138,7 @@ class UserController {
         return myRecipes;
       }
     } catch (e) {
-      debugPrint('Error getting user\'s created recipes: $e');
+      debugPrint('Error getting user\'s saved recipes: $e');
     }
 
     return [];
