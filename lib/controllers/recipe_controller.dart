@@ -20,21 +20,19 @@ class RecipeController {
       FirebaseFirestore.instance.collection('Users');
 
   Future<List<Ingredient>> getAllIngredients() async {
-    List<Ingredient> ingredientList = [];
-
-    QuerySnapshot<Object?> ingredientSnapshot =
+    final QuerySnapshot<Object?> ingredientSnapshot =
         await _ingredientsCollection.get();
-    for (var item in ingredientSnapshot.docs) {
-      String id = item.get('id') as String;
-      String name = item.get('name') as String;
 
-      Ingredient ingredient = Ingredient(
+    return ingredientSnapshot.docs.map((item) {
+      final Map<String, dynamic>? data = item.data() as Map<String, dynamic>?;
+      String id = data?['id'] as String? ?? '';
+      String name = data?['name'] as String? ?? '';
+
+      return Ingredient(
         id: id,
         name: name,
       );
-      ingredientList.add(ingredient);
-    }
-    return ingredientList;
+    }).toList();
   }
 
   Future<List<Recipe>> getAllRecipes() async {
