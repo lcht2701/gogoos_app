@@ -11,8 +11,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'firebase_options.dart';
 import 'package:gogoos_app/views/auth/auth_screen.dart';
 
-import 'models/role.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
@@ -20,7 +18,6 @@ Future<void> main() async {
   //remove splash screen
   await Future.delayed(const Duration(seconds: 3));
   FlutterNativeSplash.remove();
-  initializeUserRolesCollection();
   runApp(const MyApp());
 }
 
